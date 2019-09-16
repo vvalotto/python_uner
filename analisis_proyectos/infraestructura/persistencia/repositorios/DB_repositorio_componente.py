@@ -85,6 +85,18 @@ class DBRepositorioCarrera(BaseRepositorioComponente):
             print("Repositorio de Componente")
             return None
 
+    def obtener_por_proyecto(self, proyecto):
+        try:
+            lista_componentes = []
+            sesion = self.contexto.sesion
+            for componente_dto in sesion.query(ComponenteDTO).filter_by(id_proyecto = proyecto):
+                componente = self._mapeador.dto_a_entidad(componente_dto)
+                lista_componentes.append(componente)
+            return lista_componentes
+        except Exception("Error al recuperar"):
+            print("Repositorio de Componente")
+            return None
+
     @staticmethod
     def _copiar_registro(desde, hacia):
         hacia.nombre_componente = desde.nombre_componente
