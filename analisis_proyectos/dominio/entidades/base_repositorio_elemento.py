@@ -4,7 +4,7 @@ Clase Abstracta que define el repositorio de la Unidad Academica
 from .base_repositorio import *
 
 
-class BaseRepositorioElementoh(BaseRepositorio):
+class BaseRepositorioElemento(BaseRepositorio):
 
     @abstractmethod
     def agregar(self, entidad):
