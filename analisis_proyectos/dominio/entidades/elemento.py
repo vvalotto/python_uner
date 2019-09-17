@@ -182,6 +182,7 @@ class Elemento(Entidad):
         return
 
     def agregar_dimension(self, dimension):
+
         return
 
     def agregar_esfuerzo(self, esfuerzo):
