@@ -5,7 +5,7 @@ from analisis_proyectos.dominio.entidades.base_repositorio_componente import *
 from analisis_proyectos.infraestructura.persistencia.modelo.base_de_datos_proyectos import *
 
 
-class DBRepositorioCarrera(BaseRepositorioComponente):
+class DBRepositorioComponente(BaseRepositorioComponente):
 
     def __init__(self, contexto, mapeador):
         super().__init__(contexto)
