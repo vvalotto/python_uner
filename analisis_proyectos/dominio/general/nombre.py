@@ -7,7 +7,7 @@ Fecha creación = 22/10/16
 --------------------------
 """
 
-from estructura_academica.dominio.base.objeto_valor import *
+from analisis_proyectos.dominio.base.objeto_valor import *
 
 
 class Nombre(ObjetoValor):

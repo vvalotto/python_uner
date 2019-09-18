@@ -16,7 +16,7 @@ class TipoDimension(TextoNoVacio):
         return self.texto
 
 
-class Dimension(Entidad):
+class Dimension(ObjetoValor):
 
     @property
     def tipo_dimension(self):
@@ -41,7 +41,6 @@ class Dimension(Entidad):
         return self._id_elemento
 
     def __init__(self,  tipo_dimension, valor_dimension, elemento):
-        super().__init__()
         self._tipo_dimension = tipo_dimension
         self._valor_dimension = valor_dimension
         self._id_elemento = elemento
@@ -50,6 +49,8 @@ class Dimension(Entidad):
     def __repr__(self):
         return str(self.tipo_dimension) + ": " + str(self.valor_dimension)
 
+    def obtener_atributos_incluidos_en_chequeo_igualdad(self):
+        return [self._tipo_dimension, self._valor_dimension, self._id_elemento]
 
 class Esfuerzo(Entidad):
 
@@ -167,6 +168,10 @@ class Elemento(Entidad):
         self._descripcion = valor
         return
 
+    @property
+    def lista_dimensiones(self):
+        return self._lista_dimensiones
+
     def __init__(self,  nombre, tipo_elemento, descripcion, componente):
         super().__init__()
         self._nombre = nombre
@@ -182,14 +187,34 @@ class Elemento(Entidad):
         return
 
     def agregar_dimension(self, dimension):
-
+        self._lista_dimensiones.append(dimension)
         return
 
     def agregar_esfuerzo(self, esfuerzo):
+        self._lista_dimensiones.append(esfuerzo)
         return
 
     def agregar_defecto(self, defecto):
+        self._lista_dimensiones.append(defecto)
         return
+
+    def modificar_dimension(self, dimension_modificada):
+        encontro = False
+        for dimension_buscada in self._lista_dimensiones :
+            if dimension_buscada.tipo_dimension == dimension_modificada.tipo_dimension:
+                indice = self._lista_dimensiones.index(dimension_buscada)
+                self._lista_dimensiones[indice] = dimension_modificada
+                encontro = True
+        return encontro
+
+    def modificar_esfuerzo(self, esfuerzo):
+        self._lista_dimensiones.append(esfuerzo)
+        return
+
+    def modificar_defecto(self, defecto):
+        self._lista_dimensiones.append(defecto)
+        return
+
 
     def __repr__(self):
         return str(self.nombre) + ": " + self._tipo_elemento
