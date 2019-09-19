@@ -192,7 +192,7 @@ class Elemento(Entidad):
         return
 
     def agregar_dimension(self, dimension):
-        self._lista_dimensiones.append(dimension)
+        self._lista_dimensiones.append([dimension, "NUEVO"])
         return
 
     def agregar_esfuerzo(self, esfuerzo):
@@ -205,10 +205,11 @@ class Elemento(Entidad):
 
     def modificar_dimension(self, dimension_modificada):
         encontro = False
-        for dimension_buscada in self._lista_dimensiones :
+        for item in self._lista_dimensiones :
+            dimension_buscada = item[0]
             if dimension_buscada.tipo_dimension == dimension_modificada.tipo_dimension:
-                indice = self._lista_dimensiones.index(dimension_buscada)
-                self._lista_dimensiones[indice] = dimension_modificada
+                indice = self._lista_dimensiones.index(item)
+                self._lista_dimensiones[indice] = [dimension_modificada, "CAMBIO"]
                 encontro = True
         return encontro
 
@@ -221,11 +222,22 @@ class Elemento(Entidad):
         return
 
     def eliminar_dimension(self, dimension_eliminada):
+
+        """
         encontro = False
         try:
             self._lista_dimensiones.remove(dimension_eliminada)
             encontro = True
         except: Exception("Error no existe la dimensión")
+        return encontro
+        """
+        encontro = False
+        for item in self._lista_dimensiones :
+            dimension_buscada = item[0]
+            if dimension_buscada.tipo_dimension == dimension_eliminada.tipo_dimension:
+                indice = self._lista_dimensiones.index(item)
+                self._lista_dimensiones[indice] = [dimension_eliminada, "BORRADO"]
+                encontro = True
         return encontro
 
     def __repr__(self):

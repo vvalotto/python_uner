@@ -2,7 +2,7 @@
 Se implementa el repositorio de la Unidad Academica en Base de Datos
 """
 from analisis_proyectos.dominio.entidades.base_repositorio_elemento import *
-from analisis_proyectos.infraestructura.persistencia.modelo.base_de_datos_proyectos import *
+from analisis_proyectos.infraestructura.persistencia.mapeador.dimension_elemento import *
 from .DB_repositorio_dimension import *
 
 
@@ -11,10 +11,15 @@ class DBRepositorioElemento(BaseRepositorioElemento):
     def __init__(self, contexto, mapeador):
         super().__init__(contexto)
         self._mapeador = mapeador
-        self._repo_dimension = DBRepositorioDimension()
+        self._repo_dimension = DBRepositorioDimension(contexto, MapeadorDatosDimension(contexto))
         return
 
     def agregar(self, elemento):
+        """
+        Persiste el elemento
+        :param elemento:
+        :return:
+        """
         try:
             sesion = self.contexto.sesion
             c = self._mapeador.entidad_a_dto(elemento)
@@ -36,13 +41,19 @@ class DBRepositorioElemento(BaseRepositorioElemento):
         try:
             sesion = self.contexto.sesion
             elemento_modificado = self._mapeador.entidad_a_dto(elemento)
-            elemento_recuperado = sesion.query(ComponenteDTO).get(elemento.identificacion)
+            elemento_recuperado = sesion.query(ElementoDTO).get(elemento.identificacion)
             self._copiar_registro(elemento_modificado, elemento_recuperado)
         except Exception("Error al actualizar"):
             print("Repositorio de elemento")
         return
 
     def recuperar(self, identificacion):
+        """
+        Recupera el elemento por el id de la entidad desde la
+        persistencia
+        :param identificacion: id de la entidad elemento
+        :return:
+        """
         try:
             sesion = self.contexto.sesion
             elemento_dto = sesion.query(ElementoDTO).get(identificacion)
@@ -53,6 +64,11 @@ class DBRepositorioElemento(BaseRepositorioElemento):
         return componente
 
     def recuperar_por_nombre(self, nombre):
+        """
+        Recupera el elemento que se consultado por el nombre
+        :param nombre:
+        :return:
+        """
         try:
             sesion = self.contexto.sesion
             elemento_dto = sesion.query(ElementoDTO).\
@@ -64,6 +80,10 @@ class DBRepositorioElemento(BaseRepositorioElemento):
         return carrera
 
     def validar_existencia(self, nombre):
+        """
+        Consulta si ya existe el elemento identificado por el nombre
+        Es para no repetir nombres
+        """
         try:
             sesion = self.contexto.sesion
             if len(list(sesion.query(ElementoDTO).
@@ -111,20 +131,29 @@ class DBRepositorioElemento(BaseRepositorioElemento):
             return None
 
     def agregar_dimension_elemento(self, dimension_elemento):
+        """
+        Persiste un nueva dimension para elemento.
+        :param dimension_elemento:
+        """
+        self._repo_dimension.agregar(dimension_elemento)
         return
 
     def eliminar_dimension_elemento(self, dimension_elemento):
+        self.eliminar_dimension_elemento(dimension_elemento)
         return
 
     def recuperar_dimension_elemento(self, dimension_elemento):
-        return
+        return self._repo_dimension.recuperar(dimension_elemento)
 
     def validar_existencia_dimension_elemento(self, dimension_elemento):
-        return
+        encontro = False
+        return False
 
+    def recuperar_dimensiones(self, elemento):
+        return self._repo_dimension.recuperar_por_elemento(elemento)
 
     @staticmethod
     def _copiar_registro(desde, hacia):
-        hacia.nombre_componente = desde.nombre_componente
-        hacia.tipo_componente = desde.tipo_componente
+        hacia.nombre_elemento = desde.nombre_elemento
+        hacia.tipo_elemento = desde.tipo_elemento
         return

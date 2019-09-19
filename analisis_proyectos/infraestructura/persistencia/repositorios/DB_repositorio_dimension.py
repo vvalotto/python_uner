@@ -13,33 +13,37 @@ class DBRepositorioDimension(BaseRepositorioDimension):
     def agregar(self, dimension):
         try:
             sesion = self.contexto.sesion
-            d = self._mapeador.entidad_a_dto(dimension)
+            d = self._mapeador.objeto_valor_a_dto(dimension)
             d.id = str(uuid.uuid4())
             sesion.add(d)
         except Exception("Error al guardar"):
             print("Repositorio de Dimension")
         return
 
-    def recuperar(self, ov):
+    def actualizar(self, dimension):
+        raise ("Metodo no implementado")
+        return
+
+    def recuperar(self, dimension):
         try:
             sesion = self.contexto.sesion
-            dimension_dto = sesion.query(ElementoDTO).filter_by(tipo_dimension=ov.tipo_dimension,\
-                                                                valor_dimension=ov.valor_dimension)[0]
-            dimension = self._mapeador.dto_a_entidad(dimension_dto)
+            dimension_dto = sesion.query(DimensionElementoDTO).filter_by(tipo_dimension=dimension.tipo_dimension,\
+                                                                        valor_dimension=dimension.valor_dimension)[0]
+            dimension_recuperada = self._mapeador.dto_a_objeto_valor(dimension_dto)
         except Exception("Error al recuperar"):
-            dimension = None
+            dimension_recuperada = None
             print("Repositorio de Elemento")
-        return dimension
+        return dimension_recuperada
 
-    def eliminar(self, ov):
+    def eliminar(self, dimension):
         pass
 
-    def validar_existencia(self, ov):
+    def validar_existencia(self, dimension):
         try:
             sesion = self.contexto.sesion
-            dimension_dto = sesion.query(ElementoDTO).filter_by(tipo_dimension=ov.tipo_dimension,\
-                                                                valor_dimension=ov.valor_dimension,\
-                                                                id_elemento=ov.id_elemento)[0]
+            dimension_dto = sesion.query(ElementoDTO).filter_by(tipo_dimension=dimension.tipo_dimension,\
+                                                                valor_dimension=dimension.valor_dimension,\
+                                                                id_elemento=dimension.id_elemento)[0]
             if dimension_dto is  None:
                 return False
             else:
@@ -51,6 +55,18 @@ class DBRepositorioDimension(BaseRepositorioDimension):
 
     def recuperar_por_tipo(self, tipo):
         pass
+
+    def recuperar_por_elemento(self, elemento):
+        lista_dimensiones = []
+        try:
+            sesion = self.contexto.sesion
+            for dimension_dto in  sesion.query(DimensionElementoDTO).filter_by(id_elemento=elemento):
+                dimension = self._mapeador.dto_a_objeto_valor(dimension_dto)
+                lista_dimensiones.append(dimension)
+            return lista_dimensiones
+        except Exception("Error al recuperar"):
+            print("Repositorio de Elemento - Dimension")
+        return None
 
     def obtener_todo(self):
         pass

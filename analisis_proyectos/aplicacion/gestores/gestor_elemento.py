@@ -8,15 +8,15 @@ from analisis_proyectos.dominio.entidades.elemento import *
 class GestorElemento:
     """
     Clase de aplicación que es la responsable de realizar la
-    administración de la entidad Componente.
-    Basicamente maneja los CRUD de la entidad, no tiene otra
+    administración de agregado Elemento compuesto de la entidad
+    Elemento, y los objeto valor: dimension, esfuerzo y defecto
+    Basicamente maneja los CRUD del agregado, no tiene otra
     responsabilidad
     """
     def __init__(self):
         self._elemento = None
         self._repositorio = None
         self._nuevo = False
-        self._cambio_dimension = None
         return
 
     def crear_elemento(self, nombre_elemento,
@@ -24,7 +24,7 @@ class GestorElemento:
                              descripcion,
                              id_componente):
         """
-        Metodo Factoria que crea una nueva entidad
+        Metodo Factoria que crea solo una nueva entidad elemento
         :return: la proyecto creado
         """
         self._elemento = Elemento(nombre_elemento, tipo_elemento, descripcion, id_componente)
@@ -41,6 +41,12 @@ class GestorElemento:
         return
 
     def guardar_elemento(self):
+        """
+        Persiste los cambios en el agregado:
+        Ya sea un elemento nuevo, se modifica los datos del elemento
+        o se cambian los OV
+        :return:
+        """
         self._abrir_unidad_de_trabajo()
         if self._nuevo:
             try:
@@ -54,15 +60,25 @@ class GestorElemento:
                 print('Error al guardar')
         self._nuevo = False
 
-        if self._cambio_dimension == "NUEVO":
-            # llama al repositorio de dimensiones y guarda
-            a = 1
-        elif self._cambio_dimension == "MODIFICADO":
-            #l lama al repositorio de dimensiones y actualiza
-            a = 1
-        else:
-            # llama al repositorio de dimensiones y elimina
-            self._cerrar_unidad_de_trabajo()
+        self._guarda_dimension()
+
+        self._cerrar_unidad_de_trabajo()
+        return
+
+    def _guarda_dimension(self):
+
+        dimensiones = self._elemento.lista_dimensiones
+        for item in dimensiones:
+            if item[1] == "NUEVO":
+                # llama al repositorio de dimensiones y guarda
+                print("agrega")
+                self._repositorio.agregar_dimension_elemento(item[0])
+            elif item[1] == "CAMBIO":
+                # llama al repositorio de dimensiones y actualiza
+                print("actualiza")
+            elif item[1] == "BORRADO":
+                # llama al repositorio de dimensiones y elimina
+                print("elimina")
         return
 
     def recuperar_elemento_por_nombre(self, nombre):
@@ -73,7 +89,7 @@ class GestorElemento:
 
     def recuperar_elemento(self, id_elemento):
         self._abrir_unidad_de_trabajo()
-        self._elemento= self._repositorio.recuperar(id_elemento)
+        self._elemento = self._repositorio.recuperar(id_elemento)
         self._cerrar_unidad_de_trabajo()
         return self._elemento
 
@@ -99,10 +115,19 @@ class GestorElemento:
         tipo_dim = TipoDimension(dimension)
         dim = Dimension(tipo_dim, valor, self._elemento.identificacion)
         self._elemento.agregar_dimension(dim)
-        self._cambio_dimension = "NUEVO"
         return
 
     def sacar_dimension(self, dimension):
+        self._elemento.eliminar_dimension(dimension)
+        return
+
+    def cambiar_dimension(self, dimension):
+        self._elemento.modificar_dimension(dimension)
+        return
+
+    def recuperar_dimensiones(self):
+        for item in self._repositorio.recuperar_dimensiones(self._elemento.identificacion):
+            print(item)
         return
 
     def _abrir_unidad_de_trabajo(self):

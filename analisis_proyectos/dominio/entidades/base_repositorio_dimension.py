@@ -11,6 +11,10 @@ class BaseRepositorioDimension(BaseRepositorio):
         pass
 
     @abstractmethod
+    def actualizar(self, ov):
+        pass
+
+    @abstractmethod
     def eliminar(self, ov):
         pass
 
@@ -24,6 +28,10 @@ class BaseRepositorioDimension(BaseRepositorio):
 
     @abstractmethod
     def recuperar_por_tipo(self, tipo):
+        pass
+
+    @abstractmethod
+    def recuperar_por_elemento(self, elemento):
         pass
 
     @abstractmethod
