@@ -3,6 +3,7 @@ Se implementa el repositorio de la Unidad Academica en Base de Datos
 """
 from analisis_proyectos.dominio.entidades.base_repositorio_elemento import *
 from analisis_proyectos.infraestructura.persistencia.modelo.base_de_datos_proyectos import *
+from .DB_repositorio_dimension import *
 
 
 class DBRepositorioElemento(BaseRepositorioElemento):
@@ -10,6 +11,7 @@ class DBRepositorioElemento(BaseRepositorioElemento):
     def __init__(self, contexto, mapeador):
         super().__init__(contexto)
         self._mapeador = mapeador
+        self._repo_dimension = DBRepositorioDimension()
         return
 
     def agregar(self, elemento):
@@ -35,7 +37,7 @@ class DBRepositorioElemento(BaseRepositorioElemento):
             sesion = self.contexto.sesion
             elemento_modificado = self._mapeador.entidad_a_dto(elemento)
             elemento_recuperado = sesion.query(ComponenteDTO).get(elemento.identificacion)
-            self._copiar_registro(elemento_modificado, elemento__recuperado)
+            self._copiar_registro(elemento_modificado, elemento_recuperado)
         except Exception("Error al actualizar"):
             print("Repositorio de elemento")
         return
@@ -54,7 +56,7 @@ class DBRepositorioElemento(BaseRepositorioElemento):
         try:
             sesion = self.contexto.sesion
             elemento_dto = sesion.query(ElementoDTO).\
-                filter(ComponenteDTO.nombre_componente == nombre)[0]
+                filter(ElementoDTO.nombre_elemento == nombre)[0]
             carrera = self._mapeador.dto_a_entidad(elemento_dto)
         except Exception("Error al recuperar"):
             carrera = None
@@ -65,7 +67,7 @@ class DBRepositorioElemento(BaseRepositorioElemento):
         try:
             sesion = self.contexto.sesion
             if len(list(sesion.query(ElementoDTO).
-                        filter(ComponenteDTO.nombre_elemento == nombre))) > 0:
+                        filter(ElementoDTO.nombre_elemento == nombre))) > 0:
                 return True
             else:
                 return False
@@ -107,6 +109,19 @@ class DBRepositorioElemento(BaseRepositorioElemento):
         except Exception("Error al recuperar"):
             print("Repositorio de Elemento")
             return None
+
+    def agregar_dimension_elemento(self, dimension_elemento):
+        return
+
+    def eliminar_dimension_elemento(self, dimension_elemento):
+        return
+
+    def recuperar_dimension_elemento(self, dimension_elemento):
+        return
+
+    def validar_existencia_dimension_elemento(self, dimension_elemento):
+        return
+
 
     @staticmethod
     def _copiar_registro(desde, hacia):

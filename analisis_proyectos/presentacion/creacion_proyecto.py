@@ -3,11 +3,17 @@
 """
 from analisis_proyectos.aplicacion.gestores.gestor_proyecto import *
 from analisis_proyectos.aplicacion.gestores.gestor_componente import *
+from analisis_proyectos.aplicacion.gestores.gestor_elemento import *
+
 from analisis_proyectos.infraestructura.persistencia.contexto.contexto_database_sqlite import *
+
 from analisis_proyectos.infraestructura.persistencia.repositorios.DB_repositorio_proyecto import *
 from analisis_proyectos.infraestructura.persistencia.repositorios.DB_repositorio_componente import *
+from analisis_proyectos.infraestructura.persistencia.repositorios.DB_repositorio_elemento import *
+
 from analisis_proyectos.infraestructura.persistencia.mapeador.proyecto import *
 from analisis_proyectos.infraestructura.persistencia.mapeador.componente import *
+from analisis_proyectos.infraestructura.persistencia.mapeador.elemento import  *
 
 # Crea el contexto para el repositorio de la entidades
 mi_contexto = ContextoDBSQLite('sqlite:///proyectos.sqlite')
@@ -26,15 +32,22 @@ otro_proyecto = gestor.recuperar_proyecto_por_nombre('Sistema de Gestión de Flo
 print(otro_proyecto)
 print(otro_proyecto.identificacion)
 
-
 repo_componente = DBRepositorioComponente(mi_contexto, MapeadorDatosComponente(mi_contexto))
 gestor_componente = GestorComponente()
 gestor_componente.asignar_repositorio(repo_componente)
-
-nombre_componente = NombreComponente("Entidades Aplicacion")
-gestor_componente.crear_componente(nombre_componente, "Módulo", otro_proyecto.identificacion)
-gestor_componente.guardar_componente()
-
 lista_componentes = gestor_componente.obtener_componentes_del_proyecto(otro_proyecto.identificacion)
+print('Componentes ---->')
 print(lista_componentes)
+
+modulo_vehiculos = lista_componentes[1]
+
+print(modulo_vehiculos)
+nombre_elemento = NombreElemento("CU100")
+mi_elemento = Elemento(nombre_elemento, "Caso de Uso", "Sin descricion", modulo_vehiculos.identificacion)
+print(mi_elemento)
+gestor_elemento = GestorElemento()
+repo_elemento = DBRepositorioElemento(mi_contexto, MapeadorDatosElemento(mi_contexto))
+gestor_elemento.asignar_repositorio(repo_elemento)
+gestor_elemento.crear_elemento(nombre_elemento, "Caso de Uso", "Sin descricion", modulo_vehiculos.identificacion)
+gestor_elemento.guardar_elemento()
 

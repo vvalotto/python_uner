@@ -52,6 +52,7 @@ class Dimension(ObjetoValor):
     def obtener_atributos_incluidos_en_chequeo_igualdad(self):
         return [self._tipo_dimension, self._valor_dimension, self._id_elemento]
 
+
 class Esfuerzo(Entidad):
 
     @property
@@ -139,12 +140,12 @@ class NombreElemento(TextoNoVacio):
 class Elemento(Entidad):
 
     @property
-    def nombre(self):
-        return self._nombre
+    def nombre_elemento(self):
+        return self._nombre_elemento
 
-    @nombre.setter
-    def nombre(self, valor):
-        self._nombre = valor
+    @nombre_elemento.setter
+    def nombre_elemento(self, valor):
+        self._nombre_elemento = valor
         return
 
     @property
@@ -169,12 +170,16 @@ class Elemento(Entidad):
         return
 
     @property
+    def id_componente(self):
+        return self._id_componente
+
+    @property
     def lista_dimensiones(self):
         return self._lista_dimensiones
 
     def __init__(self,  nombre, tipo_elemento, descripcion, componente):
         super().__init__()
-        self._nombre = nombre
+        self._nombre_elemento = nombre
         if tipo_elemento in TIPO_ELEMENTO:
             self._tipo_elemento = tipo_elemento
         else:
@@ -215,7 +220,14 @@ class Elemento(Entidad):
         self._lista_dimensiones.append(defecto)
         return
 
+    def eliminar_dimension(self, dimension_eliminada):
+        encontro = False
+        try:
+            self._lista_dimensiones.remove(dimension_eliminada)
+            encontro = True
+        except: Exception("Error no existe la dimensión")
+        return encontro
 
     def __repr__(self):
-        return str(self.nombre) + ": " + self._tipo_elemento
+        return str(self.nombre_elemento) + ": " + self._tipo_elemento
 

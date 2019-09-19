@@ -16,6 +16,7 @@ class GestorElemento:
         self._elemento = None
         self._repositorio = None
         self._nuevo = False
+        self._cambio_dimension = None
         return
 
     def crear_elemento(self, nombre_elemento,
@@ -26,7 +27,7 @@ class GestorElemento:
         Metodo Factoria que crea una nueva entidad
         :return: la proyecto creado
         """
-        self._componente = Elemento(nombre_elemento, tipo_elemento, descripcion, id_componente)
+        self._elemento = Elemento(nombre_elemento, tipo_elemento, descripcion, id_componente)
         self._nuevo = True
         return self._elemento
 
@@ -39,7 +40,7 @@ class GestorElemento:
         self._repositorio = repositorio
         return
 
-    def guardar_componente(self):
+    def guardar_elemento(self):
         self._abrir_unidad_de_trabajo()
         if self._nuevo:
             try:
@@ -51,8 +52,17 @@ class GestorElemento:
                 self._repositorio.actualizar(self._elemento)
             except Exception():
                 print('Error al guardar')
-        self._cerrar_unidad_de_trabajo()
         self._nuevo = False
+
+        if self._cambio_dimension == "NUEVO":
+            # llama al repositorio de dimensiones y guarda
+            a = 1
+        elif self._cambio_dimension == "MODIFICADO":
+            #l lama al repositorio de dimensiones y actualiza
+            a = 1
+        else:
+            # llama al repositorio de dimensiones y elimina
+            self._cerrar_unidad_de_trabajo()
         return
 
     def recuperar_elemento_por_nombre(self, nombre):
@@ -79,11 +89,21 @@ class GestorElemento:
         self._cerrar_unidad_de_trabajo()
         return lista_elementos
 
-    def existe_componente(self, nombre):
+    def existe_elemento(self, nombre):
         self._abrir_unidad_de_trabajo()
         valida = self._repositorio.validar_existencia(nombre)
         self._cerrar_unidad_de_trabajo()
         return valida
+
+    def dimensionar_elemento(self, dimension, valor):
+        tipo_dim = TipoDimension(dimension)
+        dim = Dimension(tipo_dim, valor, self._elemento.identificacion)
+        self._elemento.agregar_dimension(dim)
+        self._cambio_dimension = "NUEVO"
+        return
+
+    def sacar_dimension(self, dimension):
+        return
 
     def _abrir_unidad_de_trabajo(self):
         sesion = sessionmaker(bind=self._repositorio.contexto.recurso)

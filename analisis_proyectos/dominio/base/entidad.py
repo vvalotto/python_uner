@@ -5,6 +5,7 @@ Clase Base Entidad
 from abc import ABCMeta
 import uuid
 
+
 class Entidad(metaclass=ABCMeta):
 
     @property

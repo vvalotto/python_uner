@@ -30,8 +30,8 @@ class MapeadorDatosElemento:
         self._dto_base_datos = ElementoDTO()
         self._dto_base_datos.metadata = MetaData(bind=self._contexto.recurso)
         self._dto_base_datos.id = elemento.identificacion
-        self._dto_base_datos.tipo_componente = elemento.tipo_elemento
-        self._dto_base_datos.nombre_componente = elemento.nombre_elemento
+        self._dto_base_datos.tipo_elemento = elemento.tipo_elemento
+        self._dto_base_datos.nombre_elemento = str(elemento.nombre_elemento)
         self._dto_base_datos.descripcion = elemento.descripcion
         self._dto_base_datos.id_componente = elemento.id_componente
         return self._dto_base_datos
