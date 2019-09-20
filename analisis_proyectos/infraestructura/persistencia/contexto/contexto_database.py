@@ -23,7 +23,7 @@ class ContextoDB(BaseContexto):
         """
         super().__init__(recurso)
         self._recurso = create_engine(recurso)
-        self._recurso.echo = True
+        self._recurso.echo = False
 
     def inicializar_tablas(self):
         """

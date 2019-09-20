@@ -1,5 +1,6 @@
 """
-Servicio de Aplicacion que gestiona el tratamiento de las unidades academicas
+Servicio de Aplicacion que gestiona el tratamiento de los elementos o partes que constituyen el
+componente se software a construir
 """
 from sqlalchemy.orm import sessionmaker
 from analisis_proyectos.dominio.entidades.elemento import *
@@ -50,7 +51,10 @@ class GestorElemento:
         self._abrir_unidad_de_trabajo()
         if self._nuevo:
             try:
-                self._repositorio.agregar(self._elemento)
+                if not self.existe_elemento(str(self._elemento.nombre_elemento)):
+                    self._repositorio.agregar(self._elemento)
+                else:
+                    raise("Ya existe es elemento con el nombre:" + str(self._elemento.nombre_elemento))
             except Exception():
                 print('Error al guardar')
         else:
@@ -61,6 +65,8 @@ class GestorElemento:
         self._nuevo = False
 
         self._guarda_dimension()
+        self._guarda_esfuerzo()
+        self._guarda_defecto()
 
         self._cerrar_unidad_de_trabajo()
         return
@@ -81,9 +87,43 @@ class GestorElemento:
                 print("elimina")
         return
 
+    def _guarda_esfuerzo(self):
+
+        esfuerzos = self._elemento.lista_esfuerzos
+        for item in esfuerzos:
+            if item[1] == "NUEVO":
+                # llama al repositorio de dimensiones y guarda
+                print("agrega")
+                self._repositorio.agregar_esfuerzo_elemento(item[0])
+            elif item[1] == "CAMBIO":
+                # llama al repositorio de dimensiones y actualiza
+                print("actualiza")
+            elif item[1] == "BORRADO":
+                # llama al repositorio de dimensiones y elimina
+                print("elimina")
+        return
+
+    def _guarda_defecto(self):
+
+        defectos = self._elemento.lista_defectos
+        for item in defectos:
+            if item[1] == "NUEVO":
+                # llama al repositorio de dimensiones y guarda
+                print("agrega")
+                self._repositorio.agregar_defecto_elemento(item[0])
+            elif item[1] == "CAMBIO":
+                # llama al repositorio de dimensiones y actualiza
+                print("actualiza")
+            elif item[1] == "BORRADO":
+                # llama al repositorio de dimensiones y elimina
+                print("elimina")
+        return
+
     def recuperar_elemento_por_nombre(self, nombre):
         self._abrir_unidad_de_trabajo()
         self._elemento = self._repositorio.recuperar_por_nombre(nombre)
+        for dim in self._repositorio.recuperar_dimensiones(self._elemento.identificacion):
+            self._elemento.agregar_dimension(dim)
         self._cerrar_unidad_de_trabajo()
         return self._elemento
 
@@ -129,6 +169,34 @@ class GestorElemento:
         for item in self._repositorio.recuperar_dimensiones(self._elemento.identificacion):
             print(item)
         return
+
+    def registrar_esfuerzo(self, actividad, esfuerzo):
+        esf = Esfuerzo(actividad, esfuerzo, self._elemento.identificacion)
+        self._elemento.agregar_esfuerzo(esf)
+        return
+
+    def eliminar_registro_de_esfuerzo(self, esfuerzo):
+        pass
+
+    def cambiar_registro_de_esfuerzo(self, esfuerzo):
+        pass
+
+    def recuperar_registro_de_esfuerzos(self):
+        pass
+
+    def registrar_defecto(self, fase, cantidad):
+        defec = Defecto(fase, cantidad, self._elemento.identificacion)
+        self._elemento.agregar_defecto(defec)
+        return
+
+    def elminar_registro_de_defecto(self, defecto):
+        pass
+
+    def cambiar_registro_de_defecto(self, defecto):
+        pass
+
+    def recuperar_registro_de_defectos(self):
+        pass
 
     def _abrir_unidad_de_trabajo(self):
         sesion = sessionmaker(bind=self._repositorio.contexto.recurso)

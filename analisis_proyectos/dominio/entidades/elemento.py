@@ -6,7 +6,7 @@ from ..base.entidad import *
 from ..base.texto_no_vacio import *
 
 TIPO_ELEMENTO = ['Caso de Uso', 'Historia de Usuario', 'Escenario de Calidad', "Requerimiento", "POC"]
-TIPO_ACTIVIDAD = ['Análsis', 'Diseño', 'Programación', 'Testing']
+TIPO_ACTIVIDAD = ['Análisis', 'Diseño', 'Programación', 'Testing']
 FASE_DEFECTO = ['TEST_FUNCIONAL', 'TEST_USUARIO', 'PRODUCCION']
 
 
@@ -24,7 +24,7 @@ class Dimension(ObjetoValor):
 
     @tipo_dimension.setter
     def tipo_dimension(self, valor):
-        self._nombre = valor
+        self._tipo_dimension = valor
         return
 
     @property
@@ -101,7 +101,7 @@ class Defecto(Entidad):
     @fase_defecto.setter
     def fase_defecto(self, valor):
         if valor not in FASE_DEFECTO:
-            raise("Error en el tipo de fase")
+            raise ("Error en el tipo de fase")
         self._fase_defecto = valor
         return
 
@@ -177,6 +177,14 @@ class Elemento(Entidad):
     def lista_dimensiones(self):
         return self._lista_dimensiones
 
+    @property
+    def lista_esfuerzos(self):
+        return self._lista_esfuerzos
+
+    @property
+    def lista_defectos(self):
+        return self._lista_defectos
+
     def __init__(self,  nombre, tipo_elemento, descripcion, componente):
         super().__init__()
         self._nombre_elemento = nombre
@@ -196,16 +204,16 @@ class Elemento(Entidad):
         return
 
     def agregar_esfuerzo(self, esfuerzo):
-        self._lista_dimensiones.append(esfuerzo)
+        self._lista_esfuerzos.append([esfuerzo, "NUEVO"])
         return
 
     def agregar_defecto(self, defecto):
-        self._lista_dimensiones.append(defecto)
+        self._lista_defectos.append([defecto, "NUEVO"])
         return
 
     def modificar_dimension(self, dimension_modificada):
         encontro = False
-        for item in self._lista_dimensiones :
+        for item in self._lista_dimensiones:
             dimension_buscada = item[0]
             if dimension_buscada.tipo_dimension == dimension_modificada.tipo_dimension:
                 indice = self._lista_dimensiones.index(item)
@@ -213,16 +221,27 @@ class Elemento(Entidad):
                 encontro = True
         return encontro
 
-    def modificar_esfuerzo(self, esfuerzo):
-        self._lista_dimensiones.append(esfuerzo)
-        return
+    def modificar_esfuerzo(self, esfuerzo_modificado):
+        encontro = False
+        for item in self._lista_esfuerzos:
+            esfuerzo_buscado = item[0]
+            if esfuerzo_buscado.tipo_dimension == esfuerzo_modificado.tipo_dimension:
+                indice = self._lista_dimensiones.index(item)
+                self._lista_dimensiones[indice] = [esfuerzo_modificado, "CAMBIO"]
+                encontro = True
+        return encontro
 
-    def modificar_defecto(self, defecto):
-        self._lista_dimensiones.append(defecto)
-        return
+    def modificar_defecto(self, defecto_modificado):
+        encontro = False
+        for item in self._lista_defectos:
+            defecto_buscado = item[0]
+            if defecto_modificado.tipo_dimension == defecto_buscado.tipo_dimension:
+                indice = self._lista_dimensiones.index(item)
+                self._lista_dimensiones[indice] = [defecto_modificado, "CAMBIO"]
+                encontro = True
+        return encontro
 
     def eliminar_dimension(self, dimension_eliminada):
-
         """
         encontro = False
         try:
@@ -232,7 +251,7 @@ class Elemento(Entidad):
         return encontro
         """
         encontro = False
-        for item in self._lista_dimensiones :
+        for item in self._lista_dimensiones:
             dimension_buscada = item[0]
             if dimension_buscada.tipo_dimension == dimension_eliminada.tipo_dimension:
                 indice = self._lista_dimensiones.index(item)
@@ -240,6 +259,25 @@ class Elemento(Entidad):
                 encontro = True
         return encontro
 
+    def eliminar_esfuerzo(self, esfuerzo_eliminado):
+        encontro = False
+        for item in self._lista_dimensiones:
+            esfuerzo_buscado = item[0]
+            if esfuerzo_buscado.tipo_dimension == esfuerzo_eliminado.tipo_dimension:
+                indice = self._lista_dimensiones.index(item)
+                self._lista_dimensiones[indice] = [esfuerzo_eliminado, "BORRADO"]
+                encontro = True
+        return encontro
+
+    def eliminar_defecto(self, defecto_eliminado):
+        encontro = False
+        for item in self._lista_defectos:
+            defecto_buscado = item[0]
+            if defecto_buscado.tipo_dimension == defecto_eliminado.tipo_dimension:
+                indice = self._lista_dimensiones.index(item)
+                self._lista_dimensiones[indice] = [defecto_eliminado, "BORRADO"]
+                encontro = True
+        return encontro
+
     def __repr__(self):
         return str(self.nombre_elemento) + ": " + self._tipo_elemento
-

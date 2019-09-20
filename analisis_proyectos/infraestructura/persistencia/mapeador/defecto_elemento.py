@@ -25,7 +25,7 @@ class MapeadorDatosDefecto:
 
     def objeto_valor_a_dto(self, defecto):
         self._objeto_valor = defecto
-        self._dto_base_datos = EsfuerzoElementoDTO()
+        self._dto_base_datos = DefectoElementoDTO()
         self._dto_base_datos.metadata = MetaData(bind=self._contexto.recurso)
         self._dto_base_datos.fase_defecto = str(defecto.fase_defecto)
         self._dto_base_datos.cantidad_defecto = defecto.cantidad_defecto

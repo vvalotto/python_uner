@@ -43,17 +43,33 @@ gestor_elemento.asignar_repositorio(repo_elemento)
 
 cu = gestor_elemento.recuperar_elemento_por_nombre("Imprimir OT")
 print(cu)
+print(cu.identificacion)
+print(cu.lista_dimensiones)
+print(cu.lista_esfuerzos)
+print(cu.lista_defectos)
+
 
 #Agregar Dimensiones
-"""
-gestor_elemento.dimensionar_elemento("Escenarios Definidos", 4)
+gestor_elemento.dimensionar_elemento("Escenarios Definidos", 1)
 gestor_elemento.dimensionar_elemento("Entidades Asociadas", 1)
 gestor_elemento.dimensionar_elemento("Interfaces", 0)
-gestor_elemento.dimensionar_elemento("Numero de elementos", 7)
-gestor_elemento.dimensionar_elemento("PF", 8)
+gestor_elemento.dimensionar_elemento("Numero de elementos", 4)
+gestor_elemento.dimensionar_elemento("PF", 10)
 gestor_elemento.dimensionar_elemento("UCP", 5)
-gestor_elemento.guardar_elemento()
-"""
+print(cu.lista_dimensiones)
 
-#Eliminar Dimennsiones
-print(gestor_elemento.recuperar_dimensiones())
+#Agregar Esfuezos
+
+gestor_elemento.registrar_esfuerzo("Análisis", 1.5)
+gestor_elemento.registrar_esfuerzo("Diseño", 3.0)
+print(cu.lista_esfuerzos)
+
+
+#Agregar defectos
+
+gestor_elemento.registrar_defecto("TEST_FUNCIONAL", 15)
+gestor_elemento.registrar_defecto("TEST_USUARIO", 7)
+print(cu.lista_defectos)
+
+
+gestor_elemento.guardar_elemento()
