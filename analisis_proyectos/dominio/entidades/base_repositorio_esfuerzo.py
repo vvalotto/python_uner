@@ -4,7 +4,7 @@ Clase Abstracta que define el repositorio
 from .base_repositorio import *
 
 
-class BaseRepositorioDimension(BaseRepositorio):
+class BaseRepositorioEsfuerzo(BaseRepositorio):
 
     @abstractmethod
     def agregar(self, ov):
@@ -27,7 +27,7 @@ class BaseRepositorioDimension(BaseRepositorio):
         pass
 
     @abstractmethod
-    def recuperar_por_tipo(self, tipo):
+    def recuperar_por_actividad(self, tipo):
         pass
 
     @abstractmethod

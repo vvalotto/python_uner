@@ -2,8 +2,14 @@
 Se implementa el repositorio de la Unidad Academica en Base de Datos
 """
 from analisis_proyectos.dominio.entidades.base_repositorio_elemento import *
+from analisis_proyectos.dominio.entidades.base_repositorio_esfuerzo import *
+from analisis_proyectos.dominio.entidades.base_repositorio_defecto import *
 from analisis_proyectos.infraestructura.persistencia.mapeador.dimension_elemento import *
+from analisis_proyectos.infraestructura.persistencia.mapeador.esfuerzo_elemento import *
+from analisis_proyectos.infraestructura.persistencia.mapeador.defecto_elemento import *
 from .DB_repositorio_dimension import *
+from .DB_repositorio_esfuerzo import *
+from .DB_repositorio_defecto import *
 
 
 class DBRepositorioElemento(BaseRepositorioElemento):
@@ -12,6 +18,7 @@ class DBRepositorioElemento(BaseRepositorioElemento):
         super().__init__(contexto)
         self._mapeador = mapeador
         self._repo_dimension = DBRepositorioDimension(contexto, MapeadorDatosDimension(contexto))
+        self._repo_esfuerzo = DBRepositorioEsfuerzo(contexto, MapeadorDatosEsfuerzo(contexto))
         return
 
     def agregar(self, elemento):
@@ -111,7 +118,7 @@ class DBRepositorioElemento(BaseRepositorioElemento):
         try:
             lista_elementos = []
             sesion = self.contexto.sesion
-            for componente_dto in sesion.query(ComponenteDTO).filter_by(id_proyecto = proyecto):
+            for componente_dto in sesion.query(ComponenteDTO).filter_by(id_proyecto=proyecto):
                 lista_elementos.append(self.obtener_por_componente(componente_dto.id))
             return lista_elementos
         except Exception("Error al recuperar"):
@@ -122,13 +129,35 @@ class DBRepositorioElemento(BaseRepositorioElemento):
         try:
             lista_elementos = []
             sesion = self.contexto.sesion
-            for elemento_dto in sesion.query(ElementoDTO).filter_by(id_componente = componente):
+            for elemento_dto in sesion.query(ElementoDTO).filter_by(id_componente=componente):
                 elemento = self._mapeador.dto_a_entidad(elemento_dto)
                 lista_elementos.append(elemento)
             return lista_elementos
         except Exception("Error al recuperar"):
             print("Repositorio de Elemento")
             return None
+
+    def agregar_esfuerzo_elemento(self, esfuerzo_elemento):
+        """
+        Persiste un nueva dimension para elemento.
+        :param esfuerzo_elemento:
+        """
+        self._repo_esfuerzo.agregar(esfuerzo_elemento)
+        return
+
+    def eliminar_esfuerzo_elemento(self, esfuerzo_elemento):
+        self._repo_esfuerzo.eliminar(esfuerzo_elemento)
+        return
+
+    def recuperar_esfuerzo_elemento(self, esfuerzo_elemento):
+        return self._repo_esfuerzo.recuperar(esfuerzo_elemento)
+
+    def validar_existencia_efuerzo_elemento(self, efuerzo_elemento):
+        encontro = False
+        return False
+
+    def recuperar_esfuerzos(self, elemento):
+        return self._repo_esfuerzo.recuperar_por_elemento(elemento)
 
     def agregar_dimension_elemento(self, dimension_elemento):
         """
@@ -139,7 +168,7 @@ class DBRepositorioElemento(BaseRepositorioElemento):
         return
 
     def eliminar_dimension_elemento(self, dimension_elemento):
-        self.eliminar_dimension_elemento(dimension_elemento)
+        self._repo_dimension.eliminar(dimension_elemento)
         return
 
     def recuperar_dimension_elemento(self, dimension_elemento):

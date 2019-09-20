@@ -7,7 +7,7 @@ from analisis_proyectos.dominio.entidades.elemento import *
 from analisis_proyectos.infraestructura.persistencia.modelo.base_de_datos_proyectos import *
 
 
-class MapeadorDatosDimension:
+class MapeadorDatosDefecto:
 
     def __init__(self, contexto):
         self._contexto = contexto

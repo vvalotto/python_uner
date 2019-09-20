@@ -40,11 +40,12 @@ repo_elemento = DBRepositorioElemento(mi_contexto, MapeadorDatosElemento(mi_cont
 gestor_elemento = GestorElemento()
 gestor_elemento.asignar_repositorio(repo_elemento)
 
-cu = NombreElemento(" OT")
-gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
+
+cu = gestor_elemento.recuperar_elemento_por_nombre("Imprimir OT")
 print(cu)
 
 #Agregar Dimensiones
+"""
 gestor_elemento.dimensionar_elemento("Escenarios Definidos", 4)
 gestor_elemento.dimensionar_elemento("Entidades Asociadas", 1)
 gestor_elemento.dimensionar_elemento("Interfaces", 0)
@@ -52,3 +53,7 @@ gestor_elemento.dimensionar_elemento("Numero de elementos", 7)
 gestor_elemento.dimensionar_elemento("PF", 8)
 gestor_elemento.dimensionar_elemento("UCP", 5)
 gestor_elemento.guardar_elemento()
+"""
+
+#Eliminar Dimennsiones
+print(gestor_elemento.recuperar_dimensiones())

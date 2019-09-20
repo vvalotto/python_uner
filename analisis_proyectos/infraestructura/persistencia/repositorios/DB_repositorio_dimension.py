@@ -36,7 +36,14 @@ class DBRepositorioDimension(BaseRepositorioDimension):
         return dimension_recuperada
 
     def eliminar(self, dimension):
-        pass
+        try:
+            sesion = self.contexto.sesion
+            sesion.delete(sesion.query(DimensionElementoDTO).filter_by(tipo_dimension=dimension.tipo_dimension,\
+                                                                       valor_dimension=dimension.valor_dimension,\
+                                                                       id_elemento=dimension.identificacion_elemento)[0])
+        except Exception("Error al recuperar"):
+            print("Repositorio de Elemento")
+        return
 
     def validar_existencia(self, dimension):
         try:
