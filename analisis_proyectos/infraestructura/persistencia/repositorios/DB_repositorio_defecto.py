@@ -61,6 +61,7 @@ class DBRepositorioDefecto(BaseRepositorioDefecto):
         return False
 
     def recuperar_por_fase(self, tipo):
+        raise ("Metodo no implementado")
         pass
 
     def recuperar_por_elemento(self, elemento):
@@ -76,4 +77,5 @@ class DBRepositorioDefecto(BaseRepositorioDefecto):
         return None
 
     def obtener_todo(self):
+        raise ("Metodo no implementado")
         pass

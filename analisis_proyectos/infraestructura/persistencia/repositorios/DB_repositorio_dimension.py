@@ -22,13 +22,12 @@ class DBRepositorioDimension(BaseRepositorioDimension):
 
     def actualizar(self, dimension):
         raise ("Metodo no implementado")
-        return
 
     def recuperar(self, dimension):
         try:
             sesion = self.contexto.sesion
             dimension_dto = sesion.query(DimensionElementoDTO).filter_by(tipo_dimension=dimension.tipo_dimension,\
-                                                                        valor_dimension=dimension.valor_dimension)[0]
+                                                                         valor_dimension=dimension.valor_dimension)[0]
             dimension_recuperada = self._mapeador.dto_a_objeto_valor(dimension_dto)
         except Exception("Error al recuperar"):
             dimension_recuperada = None
@@ -61,6 +60,7 @@ class DBRepositorioDimension(BaseRepositorioDimension):
         return False
 
     def recuperar_por_tipo(self, tipo):
+        raise ("Metodo no implementado")
         pass
 
     def recuperar_por_elemento(self, elemento):
@@ -76,4 +76,5 @@ class DBRepositorioDimension(BaseRepositorioDimension):
         return None
 
     def obtener_todo(self):
+        raise ("Metodo no implementado")
         pass

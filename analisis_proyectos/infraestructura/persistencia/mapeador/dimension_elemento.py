@@ -17,7 +17,7 @@ class MapeadorDatosDimension:
 
     def dto_a_objeto_valor(self, dto):
         self._dto_base_datos = dto
-        tipo_dimension = TipoDimension(self._dto_base_datos.tipo_dimension)
+        tipo_dimension = self._dto_base_datos.tipo_dimension
         valor = self._dto_base_datos.valor_dimension
         id_elemento = self._dto_base_datos.id_elemento
         self._objeto_valor = Dimension(tipo_dimension, valor, id_elemento)

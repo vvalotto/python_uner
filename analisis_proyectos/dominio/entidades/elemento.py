@@ -6,14 +6,8 @@ from ..base.entidad import *
 from ..base.texto_no_vacio import *
 
 TIPO_ELEMENTO = ['Caso de Uso', 'Historia de Usuario', 'Escenario de Calidad', "Requerimiento", "POC"]
-TIPO_ACTIVIDAD = ['Análisis', 'Diseño', 'Programación', 'Testing']
-FASE_DEFECTO = ['TEST_FUNCIONAL', 'TEST_USUARIO', 'PRODUCCION']
-
-
-class TipoDimension(TextoNoVacio):
-
-    def __rep__(self):
-        return self.texto
+TIPO_ACTIVIDAD = ['Análisis', 'Diseño', 'Programación', 'Testing', 'Retrabajo', 'Revisión']
+FASE_DEFECTO = ['CASOS_DE_PRUEBA', 'TEST_FUNCIONAL', 'TEST_USUARIO']
 
 
 class Dimension(ObjetoValor):
@@ -47,7 +41,7 @@ class Dimension(ObjetoValor):
         return
 
     def __repr__(self):
-        return str(self.tipo_dimension) + ": " + str(self.valor_dimension)
+        return self.tipo_dimension + ": " + str(self.valor_dimension)
 
     def obtener_atributos_incluidos_en_chequeo_igualdad(self):
         return [self._tipo_dimension, self._valor_dimension, self._id_elemento]
@@ -209,6 +203,18 @@ class Elemento(Entidad):
 
     def agregar_defecto(self, defecto):
         self._lista_defectos.append([defecto, "NUEVO"])
+        return
+
+    def recuperar_dimension(self, dimension):
+        self._lista_dimensiones.append([dimension, None])
+        return
+
+    def recuperar_esfuerzo(self, esfuerzo):
+        self._lista_esfuerzos.append([esfuerzo, None])
+        return
+
+    def recuperar_defecto(self, defecto):
+        self._lista_defectos.append([defecto, None])
         return
 
     def modificar_dimension(self, dimension_modificada):

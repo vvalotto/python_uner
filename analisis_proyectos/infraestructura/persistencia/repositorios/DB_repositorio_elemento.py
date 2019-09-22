@@ -200,7 +200,7 @@ class DBRepositorioElemento(BaseRepositorioElemento):
         return encontro
 
     def recuperar_defectos(self, elemento):
-        return self._repo_dimension.recuperar_por_elemento(elemento)
+        return self._repo_defecto.recuperar_por_elemento(elemento)
 
     @staticmethod
     def _copiar_registro(desde, hacia):

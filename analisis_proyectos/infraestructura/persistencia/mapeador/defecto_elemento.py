@@ -20,7 +20,7 @@ class MapeadorDatosDefecto:
         fase_defecto = self._dto_base_datos.fase_defecto
         cantidad_defecto = self._dto_base_datos.cantidad_defecto
         id_elemento = self._dto_base_datos.id_elemento
-        self._objeto_valor = Esfuerzo(fase_defecto, cantidad_defecto, id_elemento)
+        self._objeto_valor = Defecto(fase_defecto, cantidad_defecto, id_elemento)
         return self._objeto_valor
 
     def objeto_valor_a_dto(self, defecto):

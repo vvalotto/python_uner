@@ -27,8 +27,8 @@ class DBRepositorioEsfuerzo(BaseRepositorioEsfuerzo):
     def recuperar(self, esfuerzo):
         try:
             sesion = self.contexto.sesion
-            esfuerzo_dto = sesion.query(DimensionElementoDTO).filter_by(tipo_dimension=esfuerzo.tipo_actividad,\
-                                                                        valor_dimension=esfuerzo.esfuerzo_actividad)[0]
+            esfuerzo_dto = sesion.query(EsfuerzoElementoDTO).filter_by(tipo_dimension=esfuerzo.tipo_actividad,\
+                                                                       valor_dimension=esfuerzo.esfuerzo_actividad)[0]
             esfuerzo_recuperado = self._mapeador.dto_a_objeto_valor(esfuerzo_dto)
         except Exception("Error al recuperar"):
             esfuerzo_recuperado = None
@@ -36,15 +36,22 @@ class DBRepositorioEsfuerzo(BaseRepositorioEsfuerzo):
         return esfuerzo_recuperado
 
     def eliminar(self, esfuerzo):
-        pass
+        try:
+            sesion = self.contexto.sesion
+            sesion.delete(sesion.query(EsfuerzoElementoDTO).filter_by(tipo_dimension=esfuerzo.tipo_actividad,\
+                                                                      valor_dimension=esfuerzo.esfuerzo_actividad,\
+                                                                      id_elemento=esfuerzo.identificacion_elemento)[0])
+        except Exception("Error al recuperar"):
+            print("Repositorio de Esfuerzo")
+        return
 
     def validar_existencia(self, esfuerzo):
         try:
             sesion = self.contexto.sesion
             esfuerzo_dto = sesion.query(EsfuerzoElementoDTO).filter_by(tipo_dimension=esfuerzo.tipo_actividad,\
-                                                                valor_dimension=esfuerzo.esfuerzo_actividad,\
-                                                                id_elemento=esfuerzo.id_elemento)[0]
-            if esfuerzo_dto is  None:
+                                                                       valor_dimension=esfuerzo.esfuerzo_actividad,\
+                                                                       id_elemento=esfuerzo.id_elemento)[0]
+            if esfuerzo_dto is None:
                 return False
             else:
                 return True
@@ -54,6 +61,7 @@ class DBRepositorioEsfuerzo(BaseRepositorioEsfuerzo):
         return False
 
     def recuperar_por_actividad(self, actividad):
+        raise ("Metodo no implementado")
         pass
 
     def recuperar_por_elemento(self, elemento):
@@ -69,4 +77,5 @@ class DBRepositorioEsfuerzo(BaseRepositorioEsfuerzo):
         return None
 
     def obtener_todo(self):
+        raise ("Metodo no implementado")
         pass

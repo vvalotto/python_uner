@@ -31,7 +31,7 @@ print(proyecto.identificacion)
 repo_componente = DBRepositorioComponente(mi_contexto, MapeadorDatosComponente(mi_contexto))
 gestor_componente = GestorComponente()
 gestor_componente.asignar_repositorio(repo_componente)
-modulo = gestor_componente.recuperar_componente_por_nombre("Ordenes")
+modulo = gestor_componente.recuperar_componente_por_nombre("Gastos")
 print(modulo)
 print(modulo.identificacion)
 
@@ -40,15 +40,27 @@ repo_elemento = DBRepositorioElemento(mi_contexto, MapeadorDatosElemento(mi_cont
 gestor_elemento = GestorElemento()
 gestor_elemento.asignar_repositorio(repo_elemento)
 
-cu = NombreElemento("Cerrar OT")
+cu = NombreElemento("Administrar Gasto de Seguro")
 gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
 gestor_elemento.guardar_elemento()
 
-cu = NombreElemento("Editar Gastos")
+cu = NombreElemento("Administrar Gasto Impositivo")
 gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
 gestor_elemento.guardar_elemento()
 
-cu = NombreElemento("Administrar Registro Proveedor")
+cu = NombreElemento("Administrar Gasto de Combustible de ACCOR")
+gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
+gestor_elemento.guardar_elemento()
+
+cu = NombreElemento("Administrar Gastos Varios")
+gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
+gestor_elemento.guardar_elemento()
+
+cu = NombreElemento("Administrar Gastos por Orden de Trabajo")
+gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
+gestor_elemento.guardar_elemento()
+
+cu = NombreElemento("Administrar Tipos de Gastos")
 gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
 gestor_elemento.guardar_elemento()
 
@@ -57,3 +69,9 @@ cu = NombreElemento("Anular una Orden")
 gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
 gestor_elemento.guardar_elemento()
 """
+
+
+
+
+
+

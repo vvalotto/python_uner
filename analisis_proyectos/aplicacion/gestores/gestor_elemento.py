@@ -77,13 +77,13 @@ class GestorElemento:
         for item in dimensiones:
             if item[1] == "NUEVO":
                 # llama al repositorio de dimensiones y guarda
-                print("agrega")
+                print("agrega: " + str(item[0]))
                 self._repositorio.agregar_dimension_elemento(item[0])
             elif item[1] == "CAMBIO":
-                # llama al repositorio de dimensiones y actualiza
                 print("actualiza")
             elif item[1] == "BORRADO":
-                # llama al repositorio de dimensiones y elimina
+                self._repositorio.eliminar_dimension_elemento(item[0])
+                self._elemento.lista_dimensiones.remove(item)
                 print("elimina")
         return
 
@@ -93,13 +93,14 @@ class GestorElemento:
         for item in esfuerzos:
             if item[1] == "NUEVO":
                 # llama al repositorio de dimensiones y guarda
-                print("agrega")
+                print("agrega: " + str(item[0]))
                 self._repositorio.agregar_esfuerzo_elemento(item[0])
             elif item[1] == "CAMBIO":
                 # llama al repositorio de dimensiones y actualiza
                 print("actualiza")
             elif item[1] == "BORRADO":
-                # llama al repositorio de dimensiones y elimina
+                self._repositorio.eliminar_esfuerzo_elemento(item[0])
+                self._elemento.lista_esfuerzos.remove(item)
                 print("elimina")
         return
 
@@ -109,13 +110,14 @@ class GestorElemento:
         for item in defectos:
             if item[1] == "NUEVO":
                 # llama al repositorio de dimensiones y guarda
-                print("agrega")
+                print("agrega: " + str(item[0]))
                 self._repositorio.agregar_defecto_elemento(item[0])
             elif item[1] == "CAMBIO":
                 # llama al repositorio de dimensiones y actualiza
                 print("actualiza")
             elif item[1] == "BORRADO":
-                # llama al repositorio de dimensiones y elimina
+                self._repositorio.eliminar_defecto_elemento(item[0])
+                self._elemento.lista_esfuerzos.remove(item)
                 print("elimina")
         return
 
@@ -123,7 +125,11 @@ class GestorElemento:
         self._abrir_unidad_de_trabajo()
         self._elemento = self._repositorio.recuperar_por_nombre(nombre)
         for dim in self._repositorio.recuperar_dimensiones(self._elemento.identificacion):
-            self._elemento.agregar_dimension(dim)
+            self._elemento.recuperar_dimension(dim)
+        for esf in self._repositorio.recuperar_esfuerzos(self._elemento.identificacion):
+            self._elemento.recuperar_esfuerzo(esf)
+        for dfc in self._repositorio.recuperar_defectos(self._elemento.identificacion):
+            self._elemento.recuperar_defecto(dfc)
         self._cerrar_unidad_de_trabajo()
         return self._elemento
 
@@ -152,8 +158,7 @@ class GestorElemento:
         return valida
 
     def dimensionar_elemento(self, dimension, valor):
-        tipo_dim = TipoDimension(dimension)
-        dim = Dimension(tipo_dim, valor, self._elemento.identificacion)
+        dim = Dimension(dimension, valor, self._elemento.identificacion)
         self._elemento.agregar_dimension(dim)
         return
 
@@ -170,19 +175,31 @@ class GestorElemento:
             print(item)
         return
 
+    def existe_dimension(self, dimension):
+        encontro = 0
+        for dim in self._elemento.lista_dimensiones:
+            if dimension == dim[0]:
+                encontro = self._elemento.lista_dimensiones.index(dim) + 1
+                return encontro
+        return encontro
+
     def registrar_esfuerzo(self, actividad, esfuerzo):
         esf = Esfuerzo(actividad, esfuerzo, self._elemento.identificacion)
         self._elemento.agregar_esfuerzo(esf)
         return
 
     def eliminar_registro_de_esfuerzo(self, esfuerzo):
-        pass
+        self._elemento.eliminar_esfuerzo(esfuerzo)
+        return
 
     def cambiar_registro_de_esfuerzo(self, esfuerzo):
-        pass
+        self._elemento.modificar_esfuerzo(esfuerzo)
+        return
 
     def recuperar_registro_de_esfuerzos(self):
-        pass
+        for item in self._repositorio.recuperar_esfuerzos(self._elemento.identificacion):
+            print(item)
+        return
 
     def registrar_defecto(self, fase, cantidad):
         defec = Defecto(fase, cantidad, self._elemento.identificacion)
@@ -190,13 +207,25 @@ class GestorElemento:
         return
 
     def elminar_registro_de_defecto(self, defecto):
-        pass
+        self._elemento.eliminar_defecto(defecto)
+        return
 
     def cambiar_registro_de_defecto(self, defecto):
-        pass
+        self._elemento.modificar_defecto(defecto)
+        return
+
+    def existe_defecto(self, defecto):
+        encontro = 0
+        for dfc in self._elemento.lista_defectos:
+            if defecto == dfc[0]:
+                encontro = self._elemento.lista_defectos.index(dfc) + 1
+                return encontro
+        return encontro
 
     def recuperar_registro_de_defectos(self):
-        pass
+        for item in self._repositorio.recuperar_defectos(self._elemento.identificacion):
+            print(item)
+        return
 
     def _abrir_unidad_de_trabajo(self):
         sesion = sessionmaker(bind=self._repositorio.contexto.recurso)
