@@ -31,7 +31,7 @@ print(proyecto.identificacion)
 repo_componente = DBRepositorioComponente(mi_contexto, MapeadorDatosComponente(mi_contexto))
 gestor_componente = GestorComponente()
 gestor_componente.asignar_repositorio(repo_componente)
-modulo = gestor_componente.recuperar_componente_por_nombre("Gastos")
+modulo = gestor_componente.recuperar_componente_por_nombre("Entidades")
 print(modulo)
 print(modulo.identificacion)
 
@@ -40,37 +40,37 @@ repo_elemento = DBRepositorioElemento(mi_contexto, MapeadorDatosElemento(mi_cont
 gestor_elemento = GestorElemento()
 gestor_elemento.asignar_repositorio(repo_elemento)
 
-cu = NombreElemento("Administrar Gasto de Seguro")
+cu = NombreElemento("Administrar Proveedor")
 gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
 gestor_elemento.guardar_elemento()
 
-cu = NombreElemento("Administrar Gasto Impositivo")
+cu = NombreElemento("Administrar Acreedor")
 gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
 gestor_elemento.guardar_elemento()
 
-cu = NombreElemento("Administrar Gasto de Combustible de ACCOR")
+cu = NombreElemento("Administrar Rol")
 gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
 gestor_elemento.guardar_elemento()
 
-cu = NombreElemento("Administrar Gastos Varios")
+cu = NombreElemento("Modificar Contraseña de Usuario")
 gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
 gestor_elemento.guardar_elemento()
 
-cu = NombreElemento("Administrar Gastos por Orden de Trabajo")
+cu = NombreElemento("Administrar Usuario")
 gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
 gestor_elemento.guardar_elemento()
 
-cu = NombreElemento("Administrar Tipos de Gastos")
+cu = NombreElemento("Login")
 gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
 gestor_elemento.guardar_elemento()
 
-"""
-cu = NombreElemento("Anular una Orden")
+cu = NombreElemento("Administrar Estados")
 gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
 gestor_elemento.guardar_elemento()
-"""
 
-
+cu = NombreElemento("Administrar Maestro de Estados")
+gestor_elemento.crear_elemento(cu, "Caso de Uso", "Sin Descripción", modulo.identificacion)
+gestor_elemento.guardar_elemento()
 
 
 
