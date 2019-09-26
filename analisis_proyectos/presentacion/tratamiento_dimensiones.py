@@ -31,7 +31,7 @@ print(proyecto.identificacion)
 repo_componente = DBRepositorioComponente(mi_contexto, MapeadorDatosComponente(mi_contexto))
 gestor_componente = GestorComponente()
 gestor_componente.asignar_repositorio(repo_componente)
-modulo = gestor_componente.recuperar_componente_por_nombre("Vehículos")
+modulo = gestor_componente.recuperar_componente_por_nombre("Entidades")
 print(modulo)
 print(modulo.identificacion)
 
@@ -41,7 +41,7 @@ gestor_elemento = GestorElemento()
 gestor_elemento.asignar_repositorio(repo_elemento)
 
 
-cu = gestor_elemento.recuperar_elemento_por_nombre("Asignar Vehículo")
+cu = gestor_elemento.recuperar_elemento_por_nombre("Administrar Personas")
 print(cu)
 print(cu.identificacion)
 print(cu.lista_dimensiones)
@@ -50,29 +50,29 @@ print(cu.lista_defectos)
 
 
 #Agregar Dimensiones
-gestor_elemento.dimensionar_elemento("Escenarios Definidos",2)
+gestor_elemento.dimensionar_elemento("Escenarios Definidos",12)
 gestor_elemento.dimensionar_elemento("Entidades Asociadas",2)
 gestor_elemento.dimensionar_elemento("Interfaces", 0)
-gestor_elemento.dimensionar_elemento("Elementos", 10)
-gestor_elemento.dimensionar_elemento("PF", 3)
-gestor_elemento.dimensionar_elemento("UCP", 5)
+gestor_elemento.dimensionar_elemento("Elementos", 18)
+gestor_elemento.dimensionar_elemento("PF", 24)
+gestor_elemento.dimensionar_elemento("UCP", 15)
 print(cu.lista_dimensiones)
 
 #Agregar Esfuezos
 
-gestor_elemento.registrar_esfuerzo("Análisis",4)
-gestor_elemento.registrar_esfuerzo("Diseño", 0)
-gestor_elemento.registrar_esfuerzo("Programación",0)
-gestor_elemento.registrar_esfuerzo("Retrabajo", 1.75)
+gestor_elemento.registrar_esfuerzo("Análisis",12)
+gestor_elemento.registrar_esfuerzo("Diseño", 1)
+gestor_elemento.registrar_esfuerzo("Programación",12.67)
+gestor_elemento.registrar_esfuerzo("Retrabajo",1)
 gestor_elemento.registrar_esfuerzo("Revisión", 0)
-gestor_elemento.registrar_esfuerzo("Testing",1)
+gestor_elemento.registrar_esfuerzo("Testing",4.67)
 print(cu.lista_esfuerzos)
 
 
 #Agregar defectos
-gestor_elemento.registrar_defecto("CASOS_DE_PRUEBA",9)
-gestor_elemento.registrar_defecto("TEST_FUNCIONAL",3)
-gestor_elemento.registrar_defecto("TEST_USUARIO",3)
+gestor_elemento.registrar_defecto("CASOS_DE_PRUEBA",31)
+gestor_elemento.registrar_defecto("TEST_FUNCIONAL",1)
+gestor_elemento.registrar_defecto("TEST_USUARIO",6)
 print(cu.lista_defectos)
 
 print(cu.lista_dimensiones)

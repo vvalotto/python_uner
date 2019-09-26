@@ -58,7 +58,7 @@ X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 
 from sklearn.neighbors import KNeighborsClassifier
-classifier = KNeighborsClassifier(n_neighbors=5)
+classifier = KNeighborsClassifier(n_neighbors=7)
 classifier.fit(X_train, y_train)
 
 y_pred = classifier.predict(X_test)
@@ -67,4 +67,4 @@ from sklearn.metrics import classification_report, confusion_matrix
 print(confusion_matrix(y_test, y_pred))
 print(classification_report(y_test, y_pred))
 
-print(classifier.predict([[0,0,0]]))
+print(classifier.predict([[1,1,0]]))
