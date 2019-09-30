@@ -78,7 +78,7 @@ class GestorProyecto:
         self._cerrar_unidad_de_trabajo()
         return self._proyecto
 
-    def obtener_todas_los_proyecto(self):
+    def obtener_todos_los_proyecto(self):
         self._abrir_unidad_de_trabajo()
         lista_proyectos = self._repositorio.obtener_todo()
         """
