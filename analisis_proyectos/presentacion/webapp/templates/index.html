@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}ProyeSOLINF{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Hola, {% if nombre %}{{ nombre }}{% else %} Extraño{% endif %}!</h1>
+        <p>El dia y hora local es: {{ moment(hora_actual).format('LLL') }}.</p>
+        <p>eso fue: {{ moment(hora_actual).fromNow(refresh=True) }}</p>
+    </div>
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}
