@@ -13,7 +13,7 @@ from analisis_proyectos.infraestructura.persistencia.repositorios.DB_repositorio
 
 from analisis_proyectos.infraestructura.persistencia.mapeador.proyecto import *
 from analisis_proyectos.infraestructura.persistencia.mapeador.componente import *
-from analisis_proyectos.infraestructura.persistencia.mapeador.elemento import  *
+from analisis_proyectos.infraestructura.persistencia.mapeador.elemento import *
 
 # Crea el contexto para el repositorio de la entidades
 mi_contexto = ContextoDBSQLite('sqlite:///proyectos.sqlite')

@@ -3,7 +3,8 @@ directorio_base = os.path.abspath(os.path.dirname(__file__))
 
 
 class Configurador:
-    CLAVE_SECRETA = os.environ.get('SECRET_KEY')
+    SECRET_KEY = os.urandom(32)
+    WTF_CSRF_SECRET_KEY = "a csrf secret key"
     SQLACHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(directorio_base, 'proyecto.sqlite')
 
     @staticmethod

@@ -2,16 +2,15 @@ from datetime import datetime
 from flask import render_template, session, redirect, url_for
 
 from . import principal
-from .forms import NameForm
+from .formularios import NombreForm
+
 
 @principal.route('/', methods=['GET', 'POST'])
 def index():
-    form = NameForm()
+    form = NombreForm()
     if form.validate_on_submit():
-        # ...
+        session['nombre'] = form.nombre.data
         return redirect(url_for('.index'))
 
-    return render_template('index.html',
-                            form=form, name=session.get('name'),
-                            known=session.get('known', False),
-                            current_time=datetime.utcnow())
+    return render_template('index.html', form=form,
+                            nombre=session.get('nombre'))

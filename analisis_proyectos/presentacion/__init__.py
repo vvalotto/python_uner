@@ -6,11 +6,12 @@ from .configurador import Configurador
 bootstrap = Bootstrap()
 moment = Moment()
 
+
 def crear_app():
     app = Flask(__name__)
-    configurador = Configurador()
+    config = Configurador()
     app.config.from_object(configurador)
-    configurador.inicializar_app(app)
+    config.inicializar_app(app)
 
     bootstrap.init_app(app)
     moment.init_app(app)
