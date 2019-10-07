@@ -1,13 +1,9 @@
 from ..aplicacion.gestores.gestor_proyecto import *
+from ..aplicacion.gestores.gestor_componente import *
 
+from .configurador import *
 
 class ProyectoVM:
-
-    def __init__(self):
-        self._gestor_proyecto = GestorProyecto()
-        self._gestor_proyecto.asignar_repositorio()
-
-class Proyecto:
 
     @property
     def nombre(self):
@@ -21,20 +17,34 @@ class Proyecto:
     def lista(self):
         return self._modulos
 
-    def __init__(self):
-        self._nombre = "Mi proyecto"
-        self._descripcion = "Descripcion"
+    def __init__(self, gestor):
+        self._gestor = gestor
+        self._id = None
+        self._nombre = None
+        self._descripcion = None
+        self._tipo = None
         self._modulos = []
         return
 
     def existe_proyecto(self, nombre):
-       if nombre == self._nombre:
+       if self._gestor.existe_proyecto(nombre):
            return True
        else:
            return False
 
+    def obtener_proyecto(self, nombre):
+        proyecto = self._gestor.recuperar_proyecto_por_nombre(nombre)
+        self._id = proyecto.identificacion
+        self._nombre = nombre
+        self._descripcion = proyecto.descripcion
+        self._tipo = proyecto.tipo_proyecto
+        return
+
     def listar_modulos(self):
-        self._modulos.append("mod 1")
-        self._modulos.append("mod 2")
-        self._modulos.append("mod 3")
+        repo_componente = DBRepositorioComponente(Configurador.contexto, MapeadorDatosComponente(Configurador.contexto))
+        gestor_componente = GestorComponente()
+        gestor_componente.asignar_repositorio(repo_componente)
+        lista_componentes = gestor_componente.obtener_componentes_del_proyecto(self._id)
+        for componente in lista_componentes:
+            self._modulos.append(componente)
         return

@@ -1,10 +1,15 @@
 from flask import Flask, request, redirect, url_for
+from flask_bootstrap import Bootstrap
+from flask_moment import Moment
 from flask import render_template
 from analisis_proyectos.app.forms import SignupForm, PostForm, ProyectoForm
-from analisis_proyectos.app.models import Proyecto
+from analisis_proyectos.app.models import *
+from analisis_proyectos.app.configurador import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7110c8ae51a4b5af97be6534caef90e4bb9bdcb3380af008f90b23a5d1616bf319bc298105da20fe'
+bootstrap = Bootstrap(app)
+moment = Moment(app)
 
 posts = []
 
@@ -49,11 +54,12 @@ def show_signup_form():
 @app.route("/proyecto/", methods=["GET", "POST"])
 def proyecto():
     form = ProyectoForm()
-    proyecto = Proyecto()
+    proyecto = ProyectoVM(config.gestor_proyecto)
     if form.validate_on_submit():
         if not proyecto.existe_proyecto(form.nombre_proyecto.data):
             return redirect(url_for("index"))
         else:
+            proyecto.obtener_proyecto(form.nombre_proyecto.data)
             proyecto.listar_modulos()
             form.descripcion = proyecto.descripciom
             for item in proyecto.lista:
@@ -61,5 +67,21 @@ def proyecto():
     return render_template("proyecto.html", form=form)
 
 
+@app.route("/componente/<comp_id>", methods=["GET", "POST"])
+def componente(comp_id):
+    return
+
+
+@app.route("/elemento/<elem_id>", methods=["GET", "POST"])
+def elemento(elem_id):
+    return
+
+
+@app.route("/proyecto/<proy_id>", methods=["GET"])
+def proy(comp_id):
+    return
+
+
 if __name__ == '__main__':
+    config = Configurador
     app.run(debug=True)

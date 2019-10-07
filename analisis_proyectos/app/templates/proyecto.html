@@ -1,23 +1,30 @@
-{% extends "base_template.html" %}
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %} ProyecSOLIF - Proyecto {% endblock %}
 
 {% block content %}
 
-    <h1>Datos del Proyecto:</h1>
-    <form method="POST" action="">
-        {{ form.hidden_tag() }}
-        <p>{{ form.nombre_proyecto.label}}:</p>
-        <p>{{ form.nombre_proyecto}}</p>
-        <p>
-            <input type="submit" value="Consultar">
-        </p>
-        {% if form.descripcion != "None" %}
-            {{ form.descripcion.data }}
-        {% endif %}
-        {% for item in form.lista_modulos %}
-            <li> {{ item}}</li>
-        {% endfor %}
-    </form>
+    <div class="container-fluid">
+        <h1>Datos del Proyecto:</h1>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <p>{{ form.nombre_proyecto.label}}:</p>
+            <p>{{ form.nombre_proyecto}}</p>
+            <p>
+                <button type="submit" class="btn btn-primary">
+                    <!--input type="submit" -->Consultar
+                </button>
+            </p>
+            {% if form.descripcion != "None" %}
+                {{ form.descripcion.data }}
+            {% endif %}
+             <select name="modulos" size="10">
+            {% for item in form.lista_modulos %}
+                 <option value={{item}}> {{item}} </option>
+            {% endfor %}
+             </select>
+        </form>
+    </div>
 
 {% endblock %}

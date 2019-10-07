@@ -3,7 +3,8 @@ Servicio de Aplicacion que gestiona el tratamiento de las unidades academicas
 """
 from sqlalchemy.orm import sessionmaker
 from analisis_proyectos.dominio.entidades.componente import *
-
+from analisis_proyectos.infraestructura.persistencia.mapeador.componente import MapeadorDatosComponente
+from analisis_proyectos.infraestructura.persistencia.repositorios.DB_repositorio_componente import DBRepositorioComponente
 
 class GestorComponente:
     """

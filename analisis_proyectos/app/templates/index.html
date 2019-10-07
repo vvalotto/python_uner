@@ -1,11 +1,12 @@
-{% extends "base_template.html" %}
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Tutorial Flask: Miniblog{% endblock %}
+{% block title %}ProyeSOLINF{% endblock %}
 
 {% block content %}
-    <ul>
-    {% for post in posts %}
-        <li>{{ post.title }}</li>
-    {% endfor %}
-    </ul>
+<div class="container">
+    <div class="page-header">
+        <h1>Hola, {% if nombre %}{{ nombre }}{% else %} Extraño{% endif %}!</h1>
+    </div>
+</div>
 {% endblock %}
