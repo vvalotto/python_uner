@@ -13,17 +13,17 @@
             <p>{{ form.nombre_proyecto}}</p>
             <p>
                 <button type="submit" class="btn btn-primary">
-                    <!--input type="submit" -->Consultar
+                    Consultar
                 </button>
             </p>
-            {% if form.descripcion != "None" %}
-                {{ form.descripcion.data }}
+            {% if form.descripcion.data != None %}
+                <p>{{ form.descripcion.label}}:{{ form.descripcion}} </p>
+                 <select name="modulos" size="10">
+                {% for item in form.lista_modulos %}
+                     <option value={{item}}> {{item.data}} </option>
+                {% endfor %}
+                 </select>
             {% endif %}
-             <select name="modulos" size="10">
-            {% for item in form.lista_modulos %}
-                 <option value={{item}}> {{item}} </option>
-            {% endfor %}
-             </select>
         </form>
     </div>
 

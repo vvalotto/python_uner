@@ -48,3 +48,16 @@ class ProyectoVM:
         for componente in lista_componentes:
             self._modulos.append(componente)
         return
+
+class ComponenteVM:
+
+    def __init__(self):
+        return
+
+
+class ElementoVM:
+
+    def __init__(self):
+        return
+
+

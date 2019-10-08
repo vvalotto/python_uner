@@ -18,11 +18,6 @@ def index():
     return render_template("index.html", posts=posts)
 
 
-@app.route("/p/<string:slug>/")
-def mostrar_post(slug):
-    return render_template("post_view.html", slug_title=slug)
-
-
 @app.route("/admin/post/", methods=['GET', 'POST'], defaults={'post_id': None})
 @app.route("/admin/post/<int:post_id>/", methods=['GET', 'POST'])
 def post_form(post_id):
@@ -67,14 +62,14 @@ def proyecto():
     return render_template("proyecto.html", form=form)
 
 
-@app.route("/componente/<comp_id>", methods=["GET", "POST"])
-def componente(comp_id):
-    return
+@app.route("/componente/")
+def componente():
+    return render_template("componente.html")
 
 
-@app.route("/elemento/<elem_id>", methods=["GET", "POST"])
-def elemento(elem_id):
-    return
+@app.route("/elemento/")
+def elemento():
+    return render_template("elemento.html")
 
 
 @app.route("/proyecto/<proy_id>", methods=["GET"])
