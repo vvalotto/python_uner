@@ -4,7 +4,8 @@ componente se software a construir
 """
 from sqlalchemy.orm import sessionmaker
 from analisis_proyectos.dominio.entidades.elemento import *
-
+from analisis_proyectos.infraestructura.persistencia.repositorios.DB_repositorio_elemento import *
+from analisis_proyectos.infraestructura.persistencia.mapeador.elemento import *
 
 class GestorElemento:
     """
@@ -147,7 +148,7 @@ class GestorElemento:
 
     def obtener_elementos_del_componente(self, componente):
         self._abrir_unidad_de_trabajo()
-        lista_elementos = self._repositorio.obtener_por_proyecto(componente)
+        lista_elementos = self._repositorio.obtener_por_componente(componente)
         self._cerrar_unidad_de_trabajo()
         return lista_elementos
 

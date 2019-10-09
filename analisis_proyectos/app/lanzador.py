@@ -2,7 +2,7 @@ from flask import Flask, request, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask import render_template
-from analisis_proyectos.app.forms import SignupForm, PostForm, ProyectoForm
+from analisis_proyectos.app.forms import SignupForm, PostForm, ProyectoForm, ComponenteForm
 from analisis_proyectos.app.models import *
 from analisis_proyectos.app.configurador import *
 
@@ -61,10 +61,22 @@ def proyecto():
                 form.lista_modulos.append(item)
     return render_template("proyecto.html", form=form)
 
-
-@app.route("/componente/")
-def componente():
-    return render_template("componente.html")
+@app.route("/componente/", methods=['GET'], defaults={'nombre': None})
+@app.route("/componente/<string:nombre>/")
+def componente(nombre):
+    form = ComponenteForm()
+    componente = ComponenteVM(config.gestor_componente)
+    if nombre is not None:
+        if not componente.existe_componente(nombre):
+            return redirect(url_for("index"))
+        else:
+            componente.obtener_componente(nombre)
+            componente.listar_elementos()
+            form.nombre_componente = componente.nombre
+            form.tipo = componente.tipo
+            for item in componente.lista_elementos:
+                form.lista_elementos.append(item)
+    return render_template("componente.html", form=form)
 
 
 @app.route("/elemento/")

@@ -25,3 +25,8 @@ class ProyectoForm(FlaskForm):
     nombre_proyecto = StringField('Nombre del Proyecto', validators=[DataRequired(), Length(max=50)])
     descripcion = StringField('Descripcion')
     lista_modulos = []
+
+class ComponenteForm(FlaskForm):
+    nombre_componente = StringField('Nombre', validators=[DataRequired(), Length(max=50)])
+    tipo = StringField('Tipo')
+    lista_elementos = []
