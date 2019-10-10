@@ -2,7 +2,7 @@ from flask import Flask, request, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask import render_template
-from analisis_proyectos.app.forms import SignupForm, PostForm, ProyectoForm, ComponenteForm
+from analisis_proyectos.app.forms import SignupForm, PostForm, ProyectoForm, ComponenteForm, ListaProyectoForm
 from analisis_proyectos.app.models import *
 from analisis_proyectos.app.configurador import *
 
@@ -46,25 +46,38 @@ def show_signup_form():
     return render_template("signup_form.html", form=form)
 
 
-@app.route("/proyecto/", methods=["GET", "POST"])
-def proyecto():
+@app.route("/proyecto/<string:nombre>", methods=["GET", "POST"])
+def proyecto(nombre):
     form = ProyectoForm()
+    form.inicializar()
     proyecto = ProyectoVM(config.gestor_proyecto)
-    if form.validate_on_submit():
-        if not proyecto.existe_proyecto(form.nombre_proyecto.data):
+    if request.method == "GET":
+        if not proyecto.existe_proyecto(nombre):
             return redirect(url_for("index"))
         else:
-            proyecto.obtener_proyecto(form.nombre_proyecto.data)
+            proyecto.obtener_proyecto(nombre)
             proyecto.listar_modulos()
             form.descripcion = proyecto.descripciom
+            form.nombre_proyecto = nombre
             for item in proyecto.lista:
                 form.lista_modulos.append(item)
     return render_template("proyecto.html", form=form)
+
+@app.route("/proyecto/lista/")
+def proyecto_lista():
+    form = ListaProyectoForm()
+    form.inicializar()
+    lista_proyectos = ListaProyectoVM(config.gestor_proyecto)
+    lista_proyectos.obtener_proyectos()
+    for item in lista_proyectos.obtener_proyectos():
+        form.lista_proyectos.append(item)
+    return render_template("proyecto_lista.html", form=form)
 
 @app.route("/componente/", methods=['GET'], defaults={'nombre': None})
 @app.route("/componente/<string:nombre>/")
 def componente(nombre):
     form = ComponenteForm()
+    form.inicializar()
     componente = ComponenteVM(config.gestor_componente)
     if nombre is not None:
         if not componente.existe_componente(nombre):

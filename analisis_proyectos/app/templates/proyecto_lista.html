@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} ProyecSOLIF - Proyecto {% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        {{ nombre }}
+    </div>
+
+    <div class="container-fluid">
+        <h1>Lista de Proyectos</h1>
+        <form>
+            {{ form.hidden_tag() }}
+            <table class="table table-striped">
+                    <thead>
+                      <tr>
+                            <th>Nombre </th>
+                            <th>Descripción</th>
+                            <th>Tipo</th>
+                            <th> Ir a</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                       {% for item in form.lista_proyectos %}
+                          <tr>
+                                <td>{{ item.nombre }}</td>
+                                <td>{{ item.descripcion}} </td>
+                                <td>{{ item.tipo_proyecto}}</td>
+                                <td><a href="{{ url_for('proyecto', nombre=item.nombre) }}"> Ver proyecto </a></td>
+                          </tr>
+                       {% endfor %}
+                    </tbody>
+            </table>
+        </form>
+    </div>
+
+
+{% endblock %}
