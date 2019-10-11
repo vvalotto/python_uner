@@ -14,15 +14,24 @@ class ListaProyectoVM:
     def obtener_proyectos(self):
         return self._gestor.obtener_todos_los_proyectos()
 
+
 class ProyectoVM:
+
+    @property
+    def identificador(self):
+        return self._id
 
     @property
     def nombre(self):
         return self._nombre
 
     @property
-    def descripciom(self):
+    def descripcion(self):
         return self._descripcion
+
+    @property
+    def tipo(self):
+        return self._tipo
 
     @property
     def lista(self):

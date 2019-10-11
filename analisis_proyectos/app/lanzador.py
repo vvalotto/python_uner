@@ -2,7 +2,7 @@ from flask import Flask, request, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask import render_template
-from analisis_proyectos.app.forms import SignupForm, PostForm, ProyectoForm, ComponenteForm, ListaProyectoForm
+from analisis_proyectos.app.forms import ProyectoForm, ComponenteForm, ListaProyectoForm
 from analisis_proyectos.app.models import *
 from analisis_proyectos.app.configurador import *
 
@@ -18,38 +18,10 @@ def index():
     return render_template("index.html", posts=posts)
 
 
-@app.route("/admin/post/", methods=['GET', 'POST'], defaults={'post_id': None})
-@app.route("/admin/post/<int:post_id>/", methods=['GET', 'POST'])
-def post_form(post_id):
-    form = PostForm()
-    if form.validate_on_submit():
-        title = form.title.data
-        title_slug = form.title_slug.data
-        content = form.content.data
-        post = {'title': title, 'title_slug': title_slug, 'content': content}
-        posts.append(post)
-        return redirect(url_for('index'))
-    return render_template("admin/post_form.html", form=form)
-
-
-@app.route("/signup/", methods=["GET", "POST"])
-def show_signup_form():
-    form = SignupForm()
-    if form.validate_on_submit():
-        name = form.name.data
-        email = form.email.data
-        password = form.password.data
-        next = request.args.get('next', None)
-        if next:
-            return redirect(next)
-        return redirect(url_for('index'))
-    return render_template("signup_form.html", form=form)
-
-
 @app.route("/proyecto/<string:nombre>", methods=["GET", "POST"])
 def proyecto(nombre):
-    form = ProyectoForm()
-    form.inicializar()
+    formulario = ProyectoForm()
+    formulario.inicializar()
     proyecto = ProyectoVM(config.gestor_proyecto)
     if request.method == "GET":
         if not proyecto.existe_proyecto(nombre):
@@ -57,11 +29,16 @@ def proyecto(nombre):
         else:
             proyecto.obtener_proyecto(nombre)
             proyecto.listar_modulos()
-            form.descripcion = proyecto.descripciom
-            form.nombre_proyecto = nombre
+            formulario.id = proyecto.identificador
+            formulario.nombre_proyecto = nombre
+            formulario.descripcion = proyecto.descripcion
+            formulario.tipo_proyecto = proyecto.tipo
+
             for item in proyecto.lista:
-                form.lista_modulos.append(item)
-    return render_template("proyecto.html", form=form)
+                formulario.lista_modulos.append(item)
+
+    return render_template("proyecto.html", form=formulario)
+
 
 @app.route("/proyecto/lista/")
 def proyecto_lista():
@@ -72,6 +49,7 @@ def proyecto_lista():
     for item in lista_proyectos.obtener_proyectos():
         form.lista_proyectos.append(item)
     return render_template("proyecto_lista.html", form=form)
+
 
 @app.route("/componente/", methods=['GET'], defaults={'nombre': None})
 @app.route("/componente/<string:nombre>/")
