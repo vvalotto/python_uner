@@ -14,7 +14,6 @@ class ListaProyectoVM:
     def obtener_proyectos(self):
         return self._gestor.obtener_todos_los_proyectos()
 
-
 class ProyectoVM:
 
     @property
@@ -120,5 +119,8 @@ class ElementoVM:
     def __init__(self):
         pass
 
+class EstadisticaProyecroVM:
 
+    def __init__(self):
+        return
 

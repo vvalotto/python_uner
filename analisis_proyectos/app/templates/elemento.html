@@ -6,7 +6,31 @@
 {% block content %}
 
     <div class="container-fluid">
-        Elemento
+        <form>
+                <div class="row">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                            <label>Elemento </label>
+                            <input type="text" class="form-control" placeholder="{{ form.nombre_elemento }} ">
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                          <label for="tipo"> Tipo </label>
+                            <input type="text" class="form-control" id="tipo" placeholder="{{ form.tipo_elemento}}" readonly>
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label for="descripcion"> Descripción </label>
+                            <input type="text" class="form-control" id="descripcion" placeholder="{{ form.descripcion}}" readonly>
+                      </div>
+                    </div>
+                </div>
+        </form>
+
     </div>
 
 {% endblock %}

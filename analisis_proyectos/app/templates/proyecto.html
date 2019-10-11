@@ -10,42 +10,64 @@
         <div class="container">
             {{ form.hidden_tag() }}
             <form>
-              <div class="form-group">
-                    <label>Nombre del Proyecto</label>
-                    <input type="text" class="form-control" placeholder="{{ form.nombre_proyecto }} "
-                           readonly>
-              </div>
-              <div class="form-group">
-                    <label for="descripcion"> Descripción </label>
-                    <input type="text" class="form-control" id="descripcion" placeholder="{{ form.descripcion}}" readonly>
-              </div>
-                <div class="form-group">
-                    <label for="tipo"> Tipo </label>
-                    <input type="text" class="form-control" id="tipo" placeholder="{{ form.tipo_proyecto}}" readonly>
-              </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                            <label>Nombre del Proyecto</label>
+                            <input type="text" class="form-control" placeholder="{{ form.nombre_proyecto }} "
+                                   readonly>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                          <label for="tipo"> Tipo </label>
+                            <input type="text" class="form-control" id="tipo" placeholder="{{ form.tipo_proyecto}}" readonly>
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label for="descripcion"> Descripción </label>
+                            <input type="text" class="form-control" id="descripcion" placeholder="{{ form.descripcion}}" readonly>
+                      </div>
+                    </div>
+                </div>
             </form>
 
-            <div class="container" style="background-color: beige">
-                <label class="text-capitalize">Módulos Componentes</label>
-                <table class="table table-striped">
-                    <thead>
-                      <tr>
-                            <th>Nombre </th>
-                            <th>Tipo</th>
-                            <th> Ir a</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                       {% for item in form.lista_modulos %}
-                          <tr>
-                                <td>{{ item.nombre }}</td>
-                                <td>{{ item.tipo_componente}}</td>
-                                <td><a href="{{ url_for('componente', nombre=item.nombre) }}"> Ver componente </a></td>
-                          </tr>
-                       {% endfor %}
-                    </tbody>
-                  </table>
+            <div class="panel panel-defaulf">
+                <div class="row">
+                    <div class = "col-sm-8" style = "background-color:lavender">
+                        <div class="panel-heading" style="">
+                            <h1><p class="text-center"> Módulos Componentes </h1>
+                        </div>
+                    </div>
                 </div>
+                <div class="row">
+                    <div class = "col-sm-8" style = "background-color:antiquewhite">
+                        <div class="panel-body">
+                            <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                    <th>Nombre </th>
+                                    <th>Tipo</th>
+                                    <th>Ir a</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                               {% for item in form.lista_modulos %}
+                                  <tr>
+                                        <td>{{ item.nombre }}</td>
+                                        <td>{{ item.tipo_componente}}</td>
+                                        <td><a href="{{ url_for('componente', nombre=item.nombre) }}"> Ver componente </a></td>
+                                  </tr>
+                               {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
