@@ -63,11 +63,11 @@ class DBRepositorioElemento(BaseRepositorioElemento):
         try:
             sesion = self.contexto.sesion
             elemento_dto = sesion.query(ElementoDTO).get(identificacion)
-            componente = self._mapeador.dto_a_entidad(elemento_dto)
+            elemento = self._mapeador.dto_a_entidad(elemento_dto)
         except Exception("Error al recuperar"):
-            componente = None
+            elemento = None
             print("Repositorio de Elemento")
-        return componente
+        return elemento
 
     def recuperar_por_nombre(self, nombre):
         """
@@ -79,11 +79,11 @@ class DBRepositorioElemento(BaseRepositorioElemento):
             sesion = self.contexto.sesion
             elemento_dto = sesion.query(ElementoDTO).\
                 filter(ElementoDTO.nombre_elemento == nombre)[0]
-            carrera = self._mapeador.dto_a_entidad(elemento_dto)
+            elemento = self._mapeador.dto_a_entidad(elemento_dto)
         except Exception("Error al recuperar"):
-            carrera = None
-            print("Repositorio de Unidad Academica")
-        return carrera
+            elemento = None
+            print("Repositorio de Elemento")
+        return elemento
 
     def validar_existencia(self, nombre):
         """

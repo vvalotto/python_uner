@@ -48,35 +48,5 @@ print(cu.lista_dimensiones)
 print(cu.lista_esfuerzos)
 print(cu.lista_defectos)
 
+cu = gestor_elemento.recuperar_elemento(cu.identificacion)
 
-#Agregar Dimensiones
-gestor_elemento.dimensionar_elemento("Escenarios Definidos",12)
-gestor_elemento.dimensionar_elemento("Entidades Asociadas",2)
-gestor_elemento.dimensionar_elemento("Interfaces", 0)
-gestor_elemento.dimensionar_elemento("Elementos", 18)
-gestor_elemento.dimensionar_elemento("PF", 24)
-gestor_elemento.dimensionar_elemento("UCP", 15)
-print(cu.lista_dimensiones)
-
-#Agregar Esfuezos
-
-gestor_elemento.registrar_esfuerzo("Análisis",12)
-gestor_elemento.registrar_esfuerzo("Diseño", 1)
-gestor_elemento.registrar_esfuerzo("Programación",12.67)
-gestor_elemento.registrar_esfuerzo("Retrabajo",1)
-gestor_elemento.registrar_esfuerzo("Revisión", 0)
-gestor_elemento.registrar_esfuerzo("Testing",4.67)
-print(cu.lista_esfuerzos)
-
-
-#Agregar defectos
-gestor_elemento.registrar_defecto("CASOS_DE_PRUEBA",31)
-gestor_elemento.registrar_defecto("TEST_FUNCIONAL",1)
-gestor_elemento.registrar_defecto("TEST_USUARIO",6)
-print(cu.lista_defectos)
-
-print(cu.lista_dimensiones)
-print(cu.lista_esfuerzos)
-print(cu.lista_defectos)
-
-gestor_elemento.guardar_elemento()

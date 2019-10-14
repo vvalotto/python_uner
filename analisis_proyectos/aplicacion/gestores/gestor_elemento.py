@@ -137,6 +137,12 @@ class GestorElemento:
     def recuperar_elemento(self, id_elemento):
         self._abrir_unidad_de_trabajo()
         self._elemento = self._repositorio.recuperar(id_elemento)
+        for dim in self._repositorio.recuperar_dimensiones(self._elemento.identificacion):
+            self._elemento.recuperar_dimension(dim)
+        for esf in self._repositorio.recuperar_esfuerzos(self._elemento.identificacion):
+            self._elemento.recuperar_esfuerzo(esf)
+        for dfc in self._repositorio.recuperar_defectos(self._elemento.identificacion):
+            self._elemento.recuperar_defecto(dfc)
         self._cerrar_unidad_de_trabajo()
         return self._elemento
 
