@@ -1,0 +1,16 @@
+from flask import Flask
+from flask_restful import Resource, Api
+
+app = Flask(__name__)
+api = Api(app)
+
+
+class HolaMundo(Resource):
+    def get(self):
+        return {'Hola': 'Mundo'}
+
+
+api.add_resource(HolaMundo,'/')
+
+if __name__ == '__main__':
+    app.run(debug=True)

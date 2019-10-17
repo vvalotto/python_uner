@@ -178,6 +178,7 @@ class ListaElementosVM:
     def obtener_elementos(self):
         return self._gestor.obtener_todos_los_elementos()
 
+
 class ElementoVM:
 
     @property
@@ -254,7 +255,6 @@ class ElementoVM:
         self._esfuerzos = elemento.lista_esfuerzos
         self._defectos = elemento.lista_defectos
         return elemento
-
 
 
 class EstadisticaProyecroVM:

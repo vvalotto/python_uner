@@ -17,6 +17,26 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/proyectos/")
+def proyecto_lista():
+    formulario = ListaProyectoForm()
+    formulario.inicializar()
+    lista_proyectos = ListaProyectoVM(config.gestor_proyecto)
+    lista_proyectos.obtener_proyectos()
+    for item in lista_proyectos.obtener_proyectos():
+        formulario.lista_proyectos.append(item)
+    return render_template("proyectos.html", form=formulario)
+
+
+@app.route("/componentes/")
+def componente_lista():
+    return render_template("componentes.html")
+
+
+@app.route("/elementos/")
+def elementos_lista():
+    return render_template("elementos.html")
+
 @app.route("/proyecto/", methods=["POST"])
 @app.route("/proyecto/<string:id>", methods=["GET", "POST"])
 def proyecto(id):
@@ -50,27 +70,6 @@ def proyecto(id):
             formulario.id = id
 
     return render_template("proyecto.html", form=formulario)
-
-
-@app.route("/proyectos/")
-def proyecto_lista():
-    formulario = ListaProyectoForm()
-    formulario.inicializar()
-    lista_proyectos = ListaProyectoVM(config.gestor_proyecto)
-    lista_proyectos.obtener_proyectos()
-    for item in lista_proyectos.obtener_proyectos():
-        formulario.lista_proyectos.append(item)
-    return render_template("proyectos.html", form=formulario)
-
-
-@app.route("/componentes/")
-def componente_lista():
-    return render_template("componentes.html")
-
-
-@app.route("/elementos/")
-def elementos_lista():
-    return render_template("elementos.html")
 
 
 @app.route("/componente/", methods=["POST"])
@@ -126,29 +125,6 @@ def elemento(id):
             formulario.proyecto = elemento.proyecto
 
     return render_template("elemento.html", form=formulario)
-
-
-
-@app.route("/proyecto/<proy_id>", methods=["GET"])
-def proy(comp_id):
-    return
-
-
-@app.route("/proyecto_nuevo/", methods=["GET", "POST"])
-def proyecto_nuevo():
-    form = ProyectoForm(request.form)
-    proyecto = ProyectoVM(config.gestor_proyecto)
-
-    if request.method == "POST":
-        nombre_proyecto= request.form.get("nombre_proyecto")
-        descripcion = request.form.get("descripcion")
-        tipo = request.form.get("tipo_proyecto")
-        fecha_fin = request.form.get("fecha_fin")
-        proyecto.agregar_proyecto(nombre_proyecto, tipo, descripcion, fecha_fin)
-        return redirect(url_for('proyecto_lista'))
-
-    return render_template('proyecto_nuevo.html', form=form)
-
 
 
 if __name__ == '__main__':
