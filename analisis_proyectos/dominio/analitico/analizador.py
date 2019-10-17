@@ -11,21 +11,23 @@ class Analizador:
 
     @property
     def productividad(self):
-        self._muestra.obtener_tamanio_ucp("")
-        return self._muestra.obtener_esfuerzos("") / self._muestra.obtener_tamanio_ucp("")
+        return self._muestra.obtener_esfuerzo_total_proyecto("") / self._muestra.obtener_tamanio_en_ucp("")
 
     def __init__(self, muestra):
         self._muestra = muestra
+        self._clasificador = None
         return
 
     def calcular_densidad_de_defectos(self):
         return
 
     def calcular_distribucion_esfuerzo(self):
-        esfuerzo_total = self._muestra.obtener_esfuerzos("")
-        esfuerzos = self._muestra.esfuerzo_por_actividad("")
-        distribucion = []
-        return
+        esfuerzo_total = self._muestra.obtener_esfuerzo_total_proyecto("")
+        esfuerzos = self._muestra.obtener_esfuerzo_por_actividad("")
+        distribucion = {}
+        for key in esfuerzos.keys():
+            distribucion[key] = (esfuerzos[key] / esfuerzo_total) * 100
+        return distribucion
 
     def clasificar_tamanio(self, X, Y):
         X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.20)
@@ -33,11 +35,11 @@ class Analizador:
         scaler.fit(X_train)
         X_train = scaler.transform(X_train)
         X_test = scaler.transform(X_test)
-        classifier = KNeighborsClassifier(n_neighbors=5)
-        classifier.fit(X_train, y_train)
+        self._clasificador = KNeighborsClassifier(n_neighbors=5)
+        self._clasificador.fit(X_train, y_train)
 
         return
 
-    def predicir_tamanio(self):
-        return
+    def predicir_tamanio(self, escenarios, entidades, interfaces):
+        return self._clasificador.predict([[escenarios, entidades, interfaces]])
 

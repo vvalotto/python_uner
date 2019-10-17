@@ -58,7 +58,7 @@ X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 
 from sklearn.neighbors import KNeighborsClassifier
-classifier = KNeighborsClassifier(n_neighbors=7)
+classifier = KNeighborsClassifier(n_neighbors=5)
 classifier.fit(X_train, y_train)
 
 y_pred = classifier.predict(X_test)

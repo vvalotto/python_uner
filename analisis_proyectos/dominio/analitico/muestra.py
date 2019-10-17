@@ -57,6 +57,6 @@ class Muestra:
         return res
 
     def obtener_clases_CU(self, proyecto):
-        res = self._dataframe__muestra[['Puntos_de_Casos_de_Uso']].values
+        res = self._dataframe__muestra['Puntos_de_Casos_de_Uso'].values
         return res
 
