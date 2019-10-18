@@ -3,9 +3,9 @@ import requests
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask import render_template
-from analisis_proyectos.app.forms import *
-from analisis_proyectos.app.models import *
-from analisis_proyectos.app.configurador import *
+from web_analisis_proyectos.forms import *
+from web_analisis_proyectos.models import *
+from web_analisis_proyectos.configurador import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7110c8ae51a4b5af97be6534caef90e4bb9bdcb3380af008f90b23a5d1616bf319bc298105da20fe'
@@ -16,7 +16,6 @@ URL_app_api = 'http://localhost:5050/'
 @app.route("/")
 def index():
     return render_template("index.html")
-
 
 @app.route("/proyectos/")
 def proyecto_lista():
@@ -31,11 +30,9 @@ def proyecto_lista():
         
     return render_template("proyectos.html", form=formulario)
 
-
 @app.route("/componentes/")
 def componente_lista():
     return render_template("componentes.html")
-
 
 @app.route("/elementos/")
 def elementos_lista():
@@ -129,6 +126,18 @@ def elemento(id):
             formulario.proyecto = elemento.proyecto
 
     return render_template("elemento.html", form=formulario)
+
+
+@app.route("/proyecto/estadisticas")
+def estadisticas():
+    formulario = EstadisticasForm()
+
+    url_estadisticas = URL_app_api + 'proyecto/productividad/'
+    respuesta = requests.get(url_estadisticas).json()
+    formulario.productividad = respuesta['productividad']
+    formulario.esfuerzo_real = respuesta['esfuerzo real']
+    formulario.tamanio_real = respuesta['tamaño real']
+    return render_template("estadisticas.html", form=formulario)
 
 
 if __name__ == '__main__':

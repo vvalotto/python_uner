@@ -74,3 +74,10 @@ class ElementoForm(FlaskForm):
         ElementoForm.defectos = []
         ElementoForm.proyecto = None
         ElementoForm.componente = None
+
+
+class EstadisticasForm(FlaskForm):
+
+    productividad = StringField("Productividad")
+    esfuerzo_real = StringField("Esfuerzo Real")
+    tamanio_real = StringField("Tamaño Real")

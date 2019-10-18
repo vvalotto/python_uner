@@ -21,6 +21,12 @@ class Analizador:
     def calcular_densidad_de_defectos(self):
         return
 
+    def calcular_esfuerzo_real(self):
+        return self._muestra.obtener_esfuerzo_total_proyecto("")
+
+    def calcular_tamanio_real(self):
+        return self._muestra.obtener_tamanio_en_ucp("")
+
     def calcular_distribucion_esfuerzo(self):
         esfuerzo_total = self._muestra.obtener_esfuerzo_total_proyecto("")
         esfuerzos = self._muestra.obtener_esfuerzo_por_actividad("")

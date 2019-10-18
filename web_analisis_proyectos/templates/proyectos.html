@@ -48,7 +48,7 @@
                                 <td>{{ item.descripcion}} </td>
                                 <td>{{ item.tipo_proyecto}}</td>
                                 <td><a href="{{ url_for('proyecto', id=item.identificacion) }}"> Ver proyecto </a></td>
-                                <td><a href=""> Ver Estadísticas </a></td>
+                                <td><a href="{{ url_for('proyecto') + 'estadisticas' }}"> Ver Estadísticas </a></td>
                             </tr>
                             {% endfor %}
                         </tbody>

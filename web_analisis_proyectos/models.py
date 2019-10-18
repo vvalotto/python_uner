@@ -1,6 +1,6 @@
-from ..aplicacion.gestores.gestor_proyecto import *
-from ..aplicacion.gestores.gestor_componente import *
-from ..aplicacion.gestores.gestor_elemento import *
+from analisis_proyectos.aplicacion.gestores.gestor_proyecto import *
+from analisis_proyectos.aplicacion.gestores.gestor_componente import *
+from analisis_proyectos.aplicacion.gestores.gestor_elemento import *
 
 from .configurador import *
 
@@ -257,7 +257,7 @@ class ElementoVM:
         return elemento
 
 
-class EstadisticaProyecroVM:
+class EstadisticaProyectoVM:
 
     def __init__(self):
         return
