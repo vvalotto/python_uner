@@ -74,12 +74,40 @@ def post_proyecto():
 
 @app_api.route("/componentes/<string:id>/", methods=["GET"])
 def get_componentes(id):
-        return "Lista de componentes del proyecto"
+
+    if id != 0:
+        componentes = config.gestor_componente.obtener_componentes_del_proyecto(id)
+
+    lista_componentes = []
+    for componente in componentes:
+        c = {}
+        c['nombre'] = str(componente.nombre)
+        c['tipo_componente'] = str(componente.tipo_componente)
+        c['identificacion'] = str(componente.identificacion)
+        lista_componentes.append(c)
+
+    return jsonify(lista_componentes)
 
 
-@app_api.route("/componente/<string:id>", methods=["GET"])
+@app_api.route("/componente/<string:id>/", methods=["GET"])
 def get_componente(id):
-    return "Componente"
+    componente = config.gestor_componente.recuperar_componente(id)
+    c = {}
+    c['nombre'] = str(componente.nombre)
+    c['tipo_componente'] = str(componente.tipo_componente)
+    c['identificacion'] = str(componente.identificacion)
+
+    lista_elementos = []
+    for elemento in config.gestor_elemento.obtener_elementos_del_componente(id):
+        e={}
+        e['nombre_elemento'] = str(elemento.nombre_elemento)
+        e['tipo_componente'] = str(elemento.tipo_elemento)
+        e['identificacion'] = str(elemento.identificacion)
+        lista_elementos.append(e)
+
+    c['lista_elementos'] = lista_elementos
+
+    return jsonify(c)
 
 
 @app_api.route("/componente/", methods=["POST"])
@@ -98,6 +126,24 @@ def get_elemento(id):
 
 
 @app_api.route("/elemento/", methods=["POST"])
-def postcomp_elemento(id):
+def post_elemento(id):
     return "OK"
 
+
+@app_api.route("/proyecto/productividad/", methods=["GET"])
+def get_productividad():
+    prod = config.analizador_proyecto.productividad
+    return {'producitivdad': prod}
+
+
+@app_api.route("/elemento/<string:id>/predictor/", methods=["POST"])
+def post_predictor(id):
+    dimensiones = request.get_json()
+    escenarios = int(dimensiones['escenarios'])
+    entidades = int(dimensiones['entidades'])
+    interfaces = int(dimensiones['interfaces'])
+    x = config.muestra_proyectos.obtener_dimensiones_proyecto("")
+    y = config.muestra_proyectos.obtener_clases_CU("")
+    config.analizador_proyecto.clasificar_tamanio(x, y)
+    pred = config.analizador_proyecto.predicir_tamanio(escenarios, entidades, interfaces)
+    return str(pred), 200
